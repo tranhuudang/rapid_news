@@ -19,7 +19,8 @@ class ListNews {
                imageUrl: element["urlToImage"],
                title: element["title"],
                description: element["description"],
-               content: element["content"]);
+               content: element["content"],
+                url: element["url"]);
           listNews.add(articleModel);
         }
       });

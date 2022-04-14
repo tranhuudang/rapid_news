@@ -8,6 +8,7 @@ class ArticalView extends StatefulWidget {
 }
 
 class _ArticalViewState extends State<ArticalView> {
+
   @override
   Widget build(BuildContext context) {
     return Container();

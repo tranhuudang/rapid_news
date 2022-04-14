@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import '../helper/listNews.dart';
@@ -26,11 +28,28 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Rapid",
-          style: TextStyle(
-            color: Colors.black,
-          ),
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: const [
+            Text(
+              "Rapid",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 26,
+              ),
+            ),
+            Text(
+              "News",
+              style: TextStyle(
+                color: Colors.red,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ],
         ),
         elevation: 0.0,
         backgroundColor: Colors.white,
@@ -72,18 +91,21 @@ class CategoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryNews(categoryName)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CategoryNews(categoryName)));
       },
       child: Container(
         margin: const EdgeInsets.only(right: 10),
         child: Stack(
           children: [
             Image.network(
-                imageUrl,
-                width: MediaQuery.of(context).size.width,
-                height: 120,
-                fit: BoxFit.cover,
-              ),
+              imageUrl,
+              width: MediaQuery.of(context).size.width,
+              height: 120,
+              fit: BoxFit.cover,
+            ),
             Container(
               height: 120,
               decoration: BoxDecoration(
