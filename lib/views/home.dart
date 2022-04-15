@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:rapid/views/listAvailableCategory.dart';
+import 'package:rapid/views/listAvailableCategory_view.dart';
 import 'userSettings_view.dart';
 import 'headline_view.dart';
 

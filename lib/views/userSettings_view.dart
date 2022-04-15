@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:rapid/rapidProp.dart';
+import 'about_view.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({Key? key}) : super(key: key);
@@ -27,6 +28,16 @@ class _UserSettingsState extends State<UserSettings> {
         height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
+              SwitchListTile(
+                title: const Text("Data Saver"),
+                subtitle: const Text("In this mode, we will not show up any images in articles."),
+                onChanged: (value){
+                  setState(() {
+                    RapidProp.dataSaver= value;
+                  });
+                },
+                value: RapidProp.dataSaver,
+              ),
                   SwitchListTile(
                     title: const Text("Dark Mode"),
 
@@ -37,6 +48,14 @@ class _UserSettingsState extends State<UserSettings> {
                     },
                     value: RapidProp.darkMode,
                   ),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> About()));
+                },
+                child: ListTile(
+                  title:  Text("About"),
+                ),
+              )
             ],
         ),
       ),

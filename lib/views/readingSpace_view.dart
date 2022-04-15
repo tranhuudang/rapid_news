@@ -12,36 +12,47 @@ class ReadingSpaceView extends StatefulWidget {
 }
 
 class _ReadingSpaceViewState extends State<ReadingSpaceView> {
-
   @override
   Widget build(BuildContext context) {
-    int zoomFactor= 100;
+    int zoomFactor = 100;
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-            IconButton(icon: const Icon(Icons.zoom_in), onPressed: () {
+          IconButton(
+            icon: const Icon(Icons.restart_alt),
+            onPressed: () {
               setState(() {
-                zoomFactor+= 10;
+                zoomFactor += 9;
               });
-            },),
-            IconButton(icon: const Icon(Icons.zoom_out), onPressed: () {  },),
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.favorite_border),
+            onPressed: () {
 
+            },
+          ),
         ],
       ),
       body: Container(
-            child: InAppWebView(
-              initialOptions: InAppWebViewGroupOptions(
-                  crossPlatform: InAppWebViewOptions(),
-                  ios: IOSInAppWebViewOptions(),
-                  android: AndroidInAppWebViewOptions(
-                    useHybridComposition: true,
-                    forceDark: RapidProp.darkMode? AndroidForceDark.FORCE_DARK_ON: AndroidForceDark.FORCE_DARK_OFF ,
-                  )),
-              initialUrlRequest: URLRequest(
-                url: Uri.parse(widget.url),
-              ),
+        child: InAppWebView(
+          initialOptions: InAppWebViewGroupOptions(
+            crossPlatform: InAppWebViewOptions(),
+            ios: IOSInAppWebViewOptions(),
+            android: AndroidInAppWebViewOptions(
+
+              useHybridComposition: true,
+              forceDark: RapidProp.darkMode
+                  ? AndroidForceDark.FORCE_DARK_ON
+                  : AndroidForceDark.FORCE_DARK_OFF,
+              blockNetworkImage: RapidProp.dataSaver ? true : false,
             ),
           ),
+          initialUrlRequest: URLRequest(
+            url: Uri.parse(widget.url),
+          ),
+        ),
+      ),
     );
   }
 }

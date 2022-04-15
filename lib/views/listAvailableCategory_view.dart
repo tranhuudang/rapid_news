@@ -6,14 +6,11 @@ import 'listFoundedNews_view.dart';
 class ListAvailableCategory extends StatefulWidget {
   const ListAvailableCategory({Key? key}) : super(key: key);
 
-
-
   @override
   State<ListAvailableCategory> createState() => _ListAvailableCategoryState();
 }
 
 class _ListAvailableCategoryState extends State<ListAvailableCategory> {
-
   List<CategoryModel> category = <CategoryModel>[];
 
   @override
@@ -24,28 +21,21 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
 
   @override
   Widget build(BuildContext context) {
-    return
-      /// Category
-     SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              ListView.builder(
-                itemCount: category.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return CategoryTile(
-                    imageUrl: category[index].imageUrl,
-                    categoryName: category[index].categoryName,
-                  );
-                },
-              ),
-            ],
-          ),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: ListView.builder(
+        itemCount: category.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return CategoryTile(
+            imageUrl: category[index].imagePath,
+            categoryName: category[index].categoryName,
+          );
+        },
+      ),
     );
   }
 }
-
 
 /// Category Frame
 class CategoryTile extends StatelessWidget {
@@ -63,7 +53,7 @@ class CategoryTile extends StatelessWidget {
       child: Container(
         child: Stack(
           children: [
-            Image.network(
+            Image.asset(
               imageUrl,
               width: MediaQuery.of(context).size.width,
               height: 120,

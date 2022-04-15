@@ -48,6 +48,7 @@ class _ListFoundedNewsState extends State<ListFoundedNews> {
             : Container(
                 height: MediaQuery.of(context).size.height,
                 child: ListView.builder(
+                  scrollDirection: Axis.vertical,
                     itemCount: listNewsInHome.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
