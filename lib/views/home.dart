@@ -1,9 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../helper/listCategory.dart';
-import '../model/category_model.dart';
-import 'category_news.dart';
-import 'user_view.dart';
+import 'package:rapid/views/listAvailableCategory.dart';
+import 'userSettings_view.dart';
+import 'headline_view.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,12 +12,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<CategoryModel> category = <CategoryModel>[];
+  //List<CategoryModel> category = <CategoryModel>[];
+  Widget currentView = HeadLines();
 
   @override
   void initState() {
     super.initState();
-    category = getCategories().cast<CategoryModel>();
+    // category = getCategories().cast<CategoryModel>();
   }
 
   @override
@@ -50,11 +50,10 @@ class _HomeState extends State<Home> {
         ),
         elevation: 0.0,
         backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {},
-          ),
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {},
@@ -64,25 +63,11 @@ class _HomeState extends State<Home> {
       body: Container(
         child: Column(
           children: [
-            /// Category
+            /// Place to add page to Home
+            ///
+            ///
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    ListView.builder(
-                      itemCount: category.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return CategoryTile(
-                          imageUrl: category[index].imageUrl,
-                          categoryName: category[index].categoryName,
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
+              child: currentView,
             ),
 
             /// Bottom menu bar
@@ -91,11 +76,19 @@ class _HomeState extends State<Home> {
               children: [
                 IconButton(
                   icon: Icon(Icons.bubble_chart),
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      currentView = HeadLines();
+                    });
+                  },
                 ),
                 IconButton(
                   icon: Icon(Icons.view_module),
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      currentView = ListAvailableCategory();
+                    });
+                  },
                 ),
                 IconButton(
                   icon: Icon(Icons.favorite_border),
@@ -104,54 +97,13 @@ class _HomeState extends State<Home> {
                 IconButton(
                   icon: Icon(Icons.account_circle),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const UserView()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UserSettings()));
                   },
                 ),
               ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Category Frame
-class CategoryTile extends StatelessWidget {
-  final imageUrl, categoryName;
-  CategoryTile({this.imageUrl, this.categoryName});
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CategoryNews(categoryName)));
-      },
-      child: Container(
-        child: Stack(
-          children: [
-            Image.network(
-              imageUrl,
-              width: MediaQuery.of(context).size.width,
-              height: 120,
-              fit: BoxFit.cover,
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 40),
-              height: 120,
-              decoration: BoxDecoration(
-                color: Colors.black54,
-              ),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                categoryName,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
             ),
           ],
         ),

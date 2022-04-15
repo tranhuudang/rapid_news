@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:rapid/rapidProp.dart';
 
-class ArticleView extends StatefulWidget {
-  ArticleView(this.url);
+class ReadingSpaceView extends StatefulWidget {
+  ReadingSpaceView(this.url);
   final String url;
   //const ArticleView({Key? key}) : super(key: key);
 
   @override
-  State<ArticleView> createState() => _ArticleViewState();
+  State<ReadingSpaceView> createState() => _ReadingSpaceViewState();
 }
 
-class _ArticleViewState extends State<ArticleView> {
+class _ReadingSpaceViewState extends State<ReadingSpaceView> {
 
   @override
   Widget build(BuildContext context) {

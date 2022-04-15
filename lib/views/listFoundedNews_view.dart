@@ -3,19 +3,19 @@
 import 'package:flutter/material.dart';
 import 'package:rapid/helper/listNews.dart';
 import 'package:rapid/model/article_model.dart';
-import 'package:rapid/views/article_view.dart';
+import 'package:rapid/views/readingSpace_view.dart';
 ///https://newsapi.org/v2/everything?q=computer&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f for everything
 ///https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f for headline only
-class CategoryNews extends StatefulWidget {
-  const CategoryNews(this.searchTopic) ;
+class ListFoundedNews extends StatefulWidget {
+  const ListFoundedNews(this.searchTopic) ;
   final String searchTopic;
   //const CategoryNews({Key? key}) : super(key: key);
 
   @override
-  State<CategoryNews> createState() => _CategoryNewsState();
+  State<ListFoundedNews> createState() => _ListFoundedNewsState();
 }
 
-class _CategoryNewsState extends State<CategoryNews> {
+class _ListFoundedNewsState extends State<ListFoundedNews> {
   List<ArticleModel> listNewsInHome = <ArticleModel>[];
   bool _loading = true;
 
@@ -70,7 +70,7 @@ class BlogTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> ArticleView(url)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> ReadingSpaceView(url)));
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 1),

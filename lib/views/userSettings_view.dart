@@ -3,14 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rapid/rapidProp.dart';
 
-class UserView extends StatefulWidget {
-  const UserView({Key? key}) : super(key: key);
+class UserSettings extends StatefulWidget {
+  const UserSettings({Key? key}) : super(key: key);
 
   @override
-  State<UserView> createState() => _UserViewState();
+  State<UserSettings> createState() => _UserSettingsState();
 }
 
-class _UserViewState extends State<UserView> {
+class _UserSettingsState extends State<UserSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

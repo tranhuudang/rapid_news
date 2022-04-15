@@ -8,7 +8,14 @@ class ListNews {
   String topic;
   List<ArticleModel> listNews = <ArticleModel>[];
   Future<void> getNews() async {
-    Uri sourceUrl=Uri.parse("https://newsapi.org/v2/everything?q="+topic+"&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f");
+    Uri sourceUrl;
+    if(topic=="headlines") {
+      sourceUrl = Uri.parse("https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f");
+    }
+    else {
+      sourceUrl = Uri.parse("https://newsapi.org/v2/everything?q=" + topic +
+          "&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f");
+    }
 
     var response = await http.get(sourceUrl);
     var jsonData = jsonDecode(response.body);
