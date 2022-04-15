@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'views/home.dart';
-import 'views/category_news.dart';
-import 'views/article_view.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -17,7 +16,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) =>const Home(),
-        '/read': (context) => const ArticalView(),
       },
       title: 'Rapid',
       debugShowCheckedModeBanner: false,

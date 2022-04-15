@@ -1,12 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
-import '../helper/listNews.dart';
 import '../helper/listCategory.dart';
-import '../model/article_model.dart';
 import '../model/category_model.dart';
 import 'category_news.dart';
+import 'user_view.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -53,28 +50,64 @@ class _HomeState extends State<Home> {
         ),
         elevation: 0.0,
         backgroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {},
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
+      body: Container(
         child: Column(
           children: [
             /// Category
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.black,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    ListView.builder(
+                      itemCount: category.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return CategoryTile(
+                          imageUrl: category[index].imageUrl,
+                          categoryName: category[index].categoryName,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-              //margin: const EdgeInsets.symmetric(horizontal: 16),
-              height: MediaQuery.of(context).size.height,
-              child: ListView.builder(
-                //scrollDirection: Axis.horizontal,
-                itemCount: category.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return CategoryTile(
-                    imageUrl: category[index].imageUrl,
-                    categoryName: category[index].categoryName,
-                  );
-                },
-              ),
+            ),
+
+            /// Bottom menu bar
+            ButtonBar(
+              alignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.bubble_chart),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.view_module),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.favorite_border),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.account_circle),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const UserView()));
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -97,7 +130,6 @@ class CategoryTile extends StatelessWidget {
                 builder: (context) => CategoryNews(categoryName)));
       },
       child: Container(
-        margin: const EdgeInsets.only(right: 10),
         child: Stack(
           children: [
             Image.network(
@@ -107,11 +139,12 @@ class CategoryTile extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             Container(
+              padding: EdgeInsets.only(left: 40),
               height: 120,
               decoration: BoxDecoration(
                 color: Colors.black54,
               ),
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               child: Text(
                 categoryName,
                 style: const TextStyle(

@@ -1,9 +1,9 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:rapid/helper/listNews.dart';
 import 'package:rapid/model/article_model.dart';
 import 'package:rapid/views/article_view.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/link.dart';
 ///https://newsapi.org/v2/everything?q=computer&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f for everything
 ///https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f for headline only
 class CategoryNews extends StatefulWidget {
@@ -39,7 +39,7 @@ class _CategoryNewsState extends State<CategoryNews> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: const Text("Current Trend"),
+          title: Text(widget.searchTopic),
         ),
         body: _loading
             ? const Center(
@@ -69,12 +69,8 @@ class BlogTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
-        if (await canLaunch(url))
-          {
-
-            await launch(url,forceWebView: true);
-          }
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> ArticleView(url)));
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 1),
