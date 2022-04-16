@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rapid/views/listAvailableCategory_view.dart';
 import 'userSettings_view.dart';
 import 'headline_view.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -28,16 +29,23 @@ class _HomeState extends State<Home> {
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
-          children: const [
-            Text(
-              "Rapid",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 26,
+          children: [
+            Shimmer.fromColors(
+              highlightColor: Colors.white,
+              baseColor: Colors.black,
+              period: const Duration(seconds: 30),
+              loop: 10,
+              enabled: true,
+              child: const Text(
+                "Rapid",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26,
+                ),
               ),
             ),
-            Text(
+            const Text(
               "News",
               style: TextStyle(
                 color: Colors.red,
@@ -55,7 +63,7 @@ class _HomeState extends State<Home> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {},
           ),
         ],
@@ -75,7 +83,7 @@ class _HomeState extends State<Home> {
               alignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  icon: Icon(Icons.bubble_chart),
+                  icon: const Icon(Icons.bubble_chart),
                   onPressed: () {
                     setState(() {
                       currentView = HeadLines();
@@ -83,19 +91,19 @@ class _HomeState extends State<Home> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.view_module),
+                  icon: const Icon(Icons.view_module),
                   onPressed: () {
                     setState(() {
-                      currentView = ListAvailableCategory();
+                      currentView = const ListAvailableCategory();
                     });
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.favorite_border),
+                  icon: const Icon(Icons.favorite_border),
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Icon(Icons.account_circle),
+                  icon: const Icon(Icons.account_circle),
                   onPressed: () {
                     Navigator.push(
                         context,
