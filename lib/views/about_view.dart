@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:rapid/rapidProp.dart';
 
 class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);
@@ -36,14 +37,8 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            "About",
-            style: TextStyle(color: Colors.black),
-          ),
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(
-            color: Colors.black,
-          ),
+          title: const Text("About"),
+          backgroundColor: RapidProp.darkMode? RapidProp.darkModeProp.appBarBackgroundColor: RapidProp.lightModeProp.appBarBackgroundColor,
           elevation: 0.5,
         ),
         body: Center(
@@ -54,20 +49,27 @@ class _AboutState extends State<About> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      "resources/images/rapid.png",
-                      height: 200,
-                      width: 200,
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+
+                      child: Image.asset(
+                        "resources/images/rapid.png",
+                        height: 200,
+                        width: 200,
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
-                      children: const [
+                      children:[
                         Text(
                           "Rapid",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: RapidProp.darkMode? RapidProp.darkModeProp.logoNameBaseColor:RapidProp.lightModeProp.logoNameBaseColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 26,
                           ),
@@ -93,9 +95,9 @@ class _AboutState extends State<About> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Author: Tran Huu Dang",style: TextStyle(color: Colors.black54),),
-                       Text("Email: tranhuudang127@gmail.com",style: TextStyle(color: Colors.black54),),
-                       Text("Website: www.zeroclub.one",style: TextStyle(color: Colors.black54),),
+                      Text("Author: Tran Huu Dang"),
+                       Text("Email: tranhuudang127@gmail.com"),
+                       Text("Website: www.zeroclub.one"),
                     ],
                 ),
               ),
@@ -107,7 +109,6 @@ class _AboutState extends State<About> {
                 child: Text(
                   "ZeroClub",
                   style: TextStyle(
-                      color: Colors.black12,
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),

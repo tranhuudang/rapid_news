@@ -1,13 +1,14 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:rapid/helper/listNews.dart';
 import 'package:rapid/model/article_model.dart';
 import 'package:rapid/views/readingSpace_view.dart';
+
+import '../rapidProp.dart';
+
 ///https://newsapi.org/v2/everything?q=computer&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f for everything
 ///https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f for headline only
 class ListFoundedNews extends StatefulWidget {
-  const ListFoundedNews(this.searchTopic) ;
+  const ListFoundedNews(this.searchTopic);
   final String searchTopic;
   //const CategoryNews({Key? key}) : super(key: key);
 
@@ -38,8 +39,23 @@ class _ListFoundedNewsState extends State<ListFoundedNews> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue,
-          title: Text(widget.searchTopic),
+          backgroundColor: RapidProp.darkMode
+              ? RapidProp.darkModeProp.appBarBackgroundColor
+              : RapidProp.lightModeProp.appBarBackgroundColor,
+          elevation: 0.5,
+          title: Text(
+            widget.searchTopic,
+            style: TextStyle(
+              color: RapidProp.darkMode
+                  ? RapidProp.darkModeProp.appBarTextColor
+                  : RapidProp.lightModeProp.appBarTextColor,
+            ),
+          ),
+          iconTheme: IconThemeData(
+            color: RapidProp.darkMode
+                ? RapidProp.darkModeProp.appBarIconColor
+                : RapidProp.lightModeProp.appBarIconColor,
+          ),
         ),
         body: _loading
             ? const Center(
@@ -48,7 +64,7 @@ class _ListFoundedNewsState extends State<ListFoundedNews> {
             : Container(
                 height: MediaQuery.of(context).size.height,
                 child: ListView.builder(
-                  scrollDirection: Axis.vertical,
+                    scrollDirection: Axis.vertical,
                     itemCount: listNewsInHome.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
@@ -66,19 +82,27 @@ class _ListFoundedNewsState extends State<ListFoundedNews> {
 class BlogTile extends StatelessWidget {
   final String imageUrl, description, title, url;
   const BlogTile(
-      {Key? key, required this.imageUrl, required this.title, required this.description, required this.url}) : super(key: key);
+      {Key? key,
+      required this.imageUrl,
+      required this.title,
+      required this.description,
+      required this.url})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> ReadingSpaceView(url)));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ReadingSpaceView(url, title)));
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 1),
         child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
+          // decoration: const BoxDecoration(
+          //   color: Colors.white,
+          // ),
           height: 350,
           child: Padding(
             padding: const EdgeInsets.all(15),
@@ -103,7 +127,7 @@ class BlogTile extends StatelessWidget {
                   flex: 1,
                   child: Text(
                     title,
-                    style: const TextStyle(color: Colors.black, fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ),
               ],
