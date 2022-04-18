@@ -17,10 +17,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Widget currentView = HeadLines();
+  //Color headLineButton
 
   @override
   void initState() {
     super.initState();
+  }
+
+  changeButtonColor(String name)
+  {
+
   }
 
   @override
@@ -57,7 +63,7 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        elevation: 0.0,
+        elevation: 0.2,
         //backgroundColor: Colors.white,
         iconTheme: const IconThemeData(
         ),
@@ -84,10 +90,11 @@ class _HomeState extends State<Home> {
 
             /// Bottom menu bar
             ButtonBar(
+
               alignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.local_fire_department),
+                  icon: const Icon(Icons.local_fire_department, color: Colors.red,),
                   onPressed: () {
                     setState(() {
                       currentView = HeadLines();

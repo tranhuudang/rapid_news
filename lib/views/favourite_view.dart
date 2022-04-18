@@ -34,10 +34,9 @@ class _FavouriteState extends State<Favourite> {
 
   Future<void> loadJsonToList() async {
     Map<String, dynamic> jsonData = json.decode(jsonFile.readAsStringSync());
-    // print(json.decode(jsonFile.readAsStringSync()));
-    if (RapidProp.oldFavouriteList == {":":""}) {
+    print(json.decode(jsonFile.readAsStringSync()));
+    if (RapidProp.oldFavouriteList == {"": ""}) {
       RapidProp.oldFavouriteList = jsonData;
-      int index = 0;
       jsonData.forEach((title, url) {
         if (title != "" && url != "") {
           setState(() {
@@ -45,13 +44,11 @@ class _FavouriteState extends State<Favourite> {
                 FavouriteSiteModel(title: title, url: url);
             listFavourite.add(favouriteItem);
           });
-          index++;
         }
       });
     } else if (RapidProp.oldFavouriteList != jsonData) {
       RapidProp.oldFavouriteList = jsonData;
       listFavourite.clear();
-      int index = 0;
       jsonData.forEach((title, url) {
         if (title != "" && url != "") {
           setState(() {
@@ -59,7 +56,6 @@ class _FavouriteState extends State<Favourite> {
                 FavouriteSiteModel(title: title, url: url);
             listFavourite.add(favouriteItem);
           });
-          index++;
         }
       });
     }
@@ -72,6 +68,7 @@ class _FavouriteState extends State<Favourite> {
       Map<String, dynamic> jsonFileContent =
           json.decode(jsonFile.readAsStringSync());
       jsonFileContent.removeWhere((key, value) => key == title);
+
       jsonFile.writeAsStringSync(json.encode(jsonFileContent));
     } else {
       print("File does not exist!");
@@ -83,35 +80,39 @@ class _FavouriteState extends State<Favourite> {
   Widget build(BuildContext context) {
     return SizedBox(
         height: MediaQuery.of(context).size.height,
-        child: ListView.builder(
-          itemCount: listFavourite.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Dismissible(
-              direction: DismissDirection.endToStart,
-              key: Key(listFavourite[index].title),
-              child: FavouriteTile(
-                  title: listFavourite[index].title,
-                  url: listFavourite[index].url),
-              background: Container(
-                child: const Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Icon(
-                        Icons.delete_forever,
-                        color: Colors.white,
-                      )),
-                ),
-                color: Colors.red,
-              ),
-              onDismissed: (direction) {
-                listFavourite.removeAt(index);
-                removeItemInFavourite(
-                    listFavourite[index].title, listFavourite[index].url);
-              },
-            );
-          },
-        ));
+        child: listFavourite.isEmpty
+            ? const Center(
+                child: Text("Your favourite items will be saved here."),
+              )
+            : ListView.builder(
+                itemCount: listFavourite.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Dismissible(
+                    direction: DismissDirection.endToStart,
+                    key: Key(listFavourite[index].title),
+                    child: FavouriteTile(
+                        title: listFavourite[index].title,
+                        url: listFavourite[index].url),
+                    background: Container(
+                      child: const Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Icon(
+                              Icons.delete_forever,
+                              color: Colors.white,
+                            )),
+                      ),
+                      color: Colors.red,
+                    ),
+                    onDismissed: (direction) {
+                      removeItemInFavourite(
+                          listFavourite[index].title, listFavourite[index].url);
+                      listFavourite.removeAt(index);
+                    },
+                  );
+                },
+              ));
   }
 }
 

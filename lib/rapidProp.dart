@@ -1,13 +1,12 @@
 import 'dart:ui';
-import 'package:rapid/rapidProp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class RapidProp
 {
   static bool darkMode = false;
-  static bool dataSaver = true;
-  static Map<String, dynamic> oldFavouriteList= {":":""};
+  static bool dataSaver = false;
+  static Map<String, dynamic> oldFavouriteList= {"":""};
   ///Dark mode
   static DarkMode darkModeProp= DarkMode();
   static LightMode lightModeProp= LightMode();
@@ -43,13 +42,24 @@ class Settings{
     RapidProp.darkMode= value;
   }
   Future<bool> getDarkMode() async{
-    print("begin get darkmode");
     final prefs = await SharedPreferences.getInstance();
     bool value = false;
     value= prefs.getBool('darkMode')?? false;
     RapidProp.darkMode= value;
-    print("get dark mode success");
-
+    print("get darkMode success");
+    return value;
+  }
+  void setDataSaver(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('dataSaver', value);
+    RapidProp.dataSaver= value;
+  }
+  Future<bool> getDataSaver() async{
+    final prefs = await SharedPreferences.getInstance();
+    bool value = false;
+    value= prefs.getBool('dataSaver')?? false;
+    RapidProp.dataSaver= value;
+    print("get DataSaver success");
     return value;
   }
 }

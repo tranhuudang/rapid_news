@@ -100,15 +100,12 @@ class BlogTile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 1),
         child: Container(
-          // decoration: const BoxDecoration(
-          //   color: Colors.white,
-          // ),
-          height: 350,
+          height: !RapidProp.dataSaver? 350: 130,
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Column(
               children: [
-                Expanded(
+                !RapidProp.dataSaver?  Expanded(
                   flex: 3,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
@@ -119,7 +116,7 @@ class BlogTile extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                ),
+                ): Container (),
                 const SizedBox(
                   height: 20,
                 ),

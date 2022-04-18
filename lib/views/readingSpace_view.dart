@@ -22,6 +22,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
   String fileName = "favourite.json";
   bool fileExists = false;
   Map<String, dynamic>? fileContent;
+  bool websiteLoading = true;
 
   @override
   void initState() {
@@ -32,7 +33,6 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
       fileExists = jsonFile.existsSync();
     });
   }
-
 
   void createFile(
       Map<String, dynamic> content, Directory dir, String fileName) {
@@ -48,7 +48,8 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
     Map<String, dynamic> content = {key: value};
     if (fileExists) {
       print("File exists");
-      Map<String, dynamic> jsonFileContent = json.decode(jsonFile.readAsStringSync());
+      Map<String, dynamic> jsonFileContent =
+          json.decode(jsonFile.readAsStringSync());
       jsonFileContent.addAll(content);
       jsonFile.writeAsStringSync(json.encode(jsonFileContent));
     } else {
@@ -58,7 +59,10 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
     print(fileContent);
   }
 
-
+  late InAppWebViewController _controller;
+  void reloadWebsite() {
+    _controller.reload();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,19 +70,37 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
       appBar: AppBar(
         elevation: 0.5,
         iconTheme: IconThemeData(
-          color: RapidProp.darkMode? RapidProp.darkModeProp.appBarIconColor:RapidProp.lightModeProp.appBarIconColor,
+          color: RapidProp.darkMode
+              ? RapidProp.darkModeProp.appBarIconColor
+              : RapidProp.lightModeProp.appBarIconColor,
         ),
-        backgroundColor: RapidProp.darkMode? RapidProp.darkModeProp.appBarBackgroundColor: RapidProp.lightModeProp.appBarBackgroundColor,
+        backgroundColor: RapidProp.darkMode
+            ? RapidProp.darkModeProp.appBarBackgroundColor
+            : RapidProp.lightModeProp.appBarBackgroundColor,
         actions: [
+          websiteLoading
+              ? const SizedBox(
+                  width: 56,
+                  child: Padding(
+                    padding: EdgeInsets.all(18.0),
+                    child: CircularProgressIndicator(),
+                  ))
+              : IconButton(
+                  color: RapidProp.darkMode
+                      ? RapidProp.darkModeProp.appBarIconColor
+                      : RapidProp.lightModeProp.appBarIconColor,
+                  icon: Icon(Icons.restart_alt),
+                  onPressed: () {
+                    setState(() {
+                      websiteLoading = false;
+                      reloadWebsite();
+                    });
+                  },
+                ),
           IconButton(
-            color: RapidProp.darkMode? RapidProp.darkModeProp.appBarIconColor:RapidProp.lightModeProp.appBarIconColor,
-            icon: const Icon(Icons.restart_alt),
-            onPressed: () {
-
-            },
-          ),
-          IconButton(
-            color: RapidProp.darkMode? RapidProp.darkModeProp.appBarIconColor:RapidProp.lightModeProp.appBarIconColor,
+            color: RapidProp.darkMode
+                ? RapidProp.darkModeProp.appBarIconColor
+                : RapidProp.lightModeProp.appBarIconColor,
             icon: const Icon(Icons.favorite_border),
             onPressed: () {
               writeToFile(widget.title, widget.url);
@@ -88,6 +110,20 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
       ),
       body: Container(
         child: InAppWebView(
+          onProgressChanged: (controller, percent){
+            if(percent==0)
+              {
+                websiteLoading = false;
+              }
+          },
+          onLoadStop: (controller, url) {
+            setState(() {
+
+            });
+          },
+          onWebViewCreated: ((controller) {
+            _controller = controller;
+          }),
           initialOptions: InAppWebViewGroupOptions(
             crossPlatform: InAppWebViewOptions(),
             ios: IOSInAppWebViewOptions(),

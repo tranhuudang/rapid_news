@@ -1,10 +1,8 @@
-
 import 'dart:ui';
-
+import 'package:rapid/main.dart';
 import 'package:flutter/material.dart';
 import 'package:rapid/rapidProp.dart';
 import 'about_view.dart';
-import 'package:rapid/rapidProp.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({Key? key}) : super(key: key);
@@ -14,28 +12,31 @@ class UserSettings extends StatefulWidget {
 }
 
 class _UserSettingsState extends State<UserSettings> {
-
-
-
-  @override void initState() {
+  @override
+  void initState() {
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
-        backgroundColor: RapidProp.darkMode? RapidProp.darkModeProp.appBarBackgroundColor: RapidProp.lightModeProp.appBarBackgroundColor,
+        backgroundColor: RapidProp.darkMode
+            ? RapidProp.darkModeProp.appBarBackgroundColor
+            : RapidProp.lightModeProp.appBarBackgroundColor,
         elevation: 0.5,
         title: Text(
           "User Settings",
           style: TextStyle(
-            color:  RapidProp.darkMode? RapidProp.darkModeProp.appBarTextColor:RapidProp.lightModeProp.appBarTextColor,
-        ),
+            color: RapidProp.darkMode
+                ? RapidProp.darkModeProp.appBarTextColor
+                : RapidProp.lightModeProp.appBarTextColor,
+          ),
         ),
         iconTheme: IconThemeData(
-          color: RapidProp.darkMode? RapidProp.darkModeProp.appBarIconColor:RapidProp.lightModeProp.appBarIconColor,
+          color: RapidProp.darkMode
+              ? RapidProp.darkModeProp.appBarIconColor
+              : RapidProp.lightModeProp.appBarIconColor,
         ),
       ),
       body: Container(
@@ -44,25 +45,37 @@ class _UserSettingsState extends State<UserSettings> {
         child: Column(
           children: [
             ListTile(
-
               title: Text("Sign in"),
             ),
             SwitchListTile(
-
-              title: Text("Data Saver",style: TextStyle(
-              ),),
+              title: Text(
+                "Data Saver",
+                style: TextStyle(),
+              ),
               subtitle: Text(
                   "In this mode, we will not show up any images in articles."),
               onChanged: (value) {
                 setState(() {
                   RapidProp.dataSaver = value;
+                  RapidProp.settings.setDataSaver(value);
                 });
               },
               value: RapidProp.dataSaver,
             ),
             SwitchListTile(
-              title: Text("Dark Mode"),
+              title: const Text("Dark Mode"),
               onChanged: (bool value) {
+                final snackBar = SnackBar(
+                  duration: Duration(seconds: 10),
+                  content: const Text("Do you want to apply it now?"),
+                  action: SnackBarAction(
+                    label: 'Apply',
+                    onPressed: () {
+                      RestartWidget.restartApp(context);
+                    },
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 setState(() {
                   RapidProp.darkMode = value;
                   RapidProp.settings.setDarkMode(value);

@@ -61,6 +61,9 @@ class _AboutState extends State<About> {
                         width: 200,
                       ),
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.baseline,
