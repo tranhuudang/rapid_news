@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        elevation: 0.2,
+        elevation: 0.3,
         //backgroundColor: Colors.white,
         iconTheme: const IconThemeData(
         ),
@@ -89,45 +89,52 @@ class _HomeState extends State<Home> {
             ),
 
             /// Bottom menu bar
-            ButtonBar(
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: RapidProp.darkMode? Colors.white10: Colors.black12),
+                ),
+              ),
+              child: ButtonBar(
 
-              alignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.local_fire_department, color: Colors.red,),
-                  onPressed: () {
-                    setState(() {
-                      currentView = HeadLines();
-                    });
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.view_module),
-                  onPressed: () {
-                    setState(() {
-                      currentView = const ListAvailableCategory();
-                    });
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.favorite_border),
-                  onPressed: () {
-                    setState(() {
-                      currentView = Favourite();
-                    });
+                alignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.local_fire_department, color: Colors.red,),
+                    onPressed: () {
+                      setState(() {
+                        currentView = HeadLines();
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.view_module),
+                    onPressed: () {
+                      setState(() {
+                        currentView = const ListAvailableCategory();
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.favorite_border),
+                    onPressed: () {
+                      setState(() {
+                        currentView = Favourite();
+                      });
 
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.account_circle),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const UserSettings()));
-                  },
-                ),
-              ],
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.account_circle),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserSettings()));
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),

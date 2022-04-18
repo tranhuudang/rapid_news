@@ -130,10 +130,10 @@ class FavouriteTile extends StatelessWidget {
                 builder: (context) => ReadingSpaceView(url, title)));
       },
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
             border: Border(
           bottom: BorderSide(
-              color: Colors.grey, width: 1.0, style: BorderStyle.solid),
+              color: RapidProp.darkMode? Colors.white10: Colors.black12 , width: 1.0, style: BorderStyle.solid),
         )),
         child: ListTile(
           title: Text(title),

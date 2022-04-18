@@ -72,6 +72,9 @@ class BlogTile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 1),
         child: Container(
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: RapidProp.darkMode? Colors.white10: Colors.black12)),
+          ),
           height: !RapidProp.dataSaver? 350: 130,
           child: Padding(
             padding: const EdgeInsets.all(15),
@@ -89,14 +92,16 @@ class BlogTile extends StatelessWidget {
                     ),
                   ),
                 ):Container(),
-                const SizedBox(
-                  height: 20,
-                ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
                 Expanded(
                   flex: 1,
-                  child: Text(
-                    title,
-                    style: const TextStyle(fontSize: 18),
+                  child: Center(
+                    child: Text(
+                      title,
+                      style: const TextStyle(fontSize: 18),
+                    ),
                   ),
                 ),
               ],

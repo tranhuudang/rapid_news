@@ -49,6 +49,21 @@ class _UserSettingsState extends State<UserSettings> {
             ),
             SwitchListTile(
               title: Text(
+                "Always open sites in Reading Mode",
+                style: TextStyle(),
+              ),
+              subtitle: Text(
+                  "Unfamiliar contents will be filtered out to keep you focus on the road."),
+              onChanged: (value) {
+                setState(() {
+
+                });
+              },
+              value: false,
+            ),
+            SwitchListTile(
+              secondary: Icon(Icons.data_saver_on),
+              title: Text(
                 "Data Saver",
                 style: TextStyle(),
               ),
