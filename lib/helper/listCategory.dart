@@ -10,6 +10,11 @@ List<CategoryModel> getCategories(){
   category.add(categoryModel);
 
   categoryModel = CategoryModel();
+  categoryModel.categoryName = "Business";
+  categoryModel.imagePath = "resources/images/business.jpg";
+  category.add(categoryModel);
+
+  categoryModel = CategoryModel();
   categoryModel.categoryName = "Books";
   categoryModel.imagePath = "resources/images/book.jpg";
   category.add(categoryModel);
@@ -17,6 +22,21 @@ List<CategoryModel> getCategories(){
   categoryModel = CategoryModel();
   categoryModel.categoryName = "Entertainment";
   categoryModel.imagePath = "resources/images/entertainment.jpg";
+  category.add(categoryModel);
+
+  categoryModel = CategoryModel();
+  categoryModel.categoryName = "Fitness";
+  categoryModel.imagePath = "resources/images/fitness.jpg";
+  category.add(categoryModel);
+
+  categoryModel = CategoryModel();
+  categoryModel.categoryName = "General";
+  categoryModel.imagePath = "resources/images/general.jpg";
+  category.add(categoryModel);
+
+  categoryModel = CategoryModel();
+  categoryModel.categoryName = "Health";
+  categoryModel.imagePath = "resources/images/health.jpg";
   category.add(categoryModel);
 
   categoryModel = CategoryModel();
@@ -45,8 +65,13 @@ List<CategoryModel> getCategories(){
   category.add(categoryModel);
 
   categoryModel = CategoryModel();
-  categoryModel.categoryName = "Fitness";
-  categoryModel.imagePath = "resources/images/fitness.jpg";
+  categoryModel.categoryName = "Science";
+  categoryModel.imagePath = "resources/images/science.jpg";
+  category.add(categoryModel);
+
+  categoryModel = CategoryModel();
+  categoryModel.categoryName = "Sports";
+  categoryModel.imagePath = "resources/images/sports.jpg";
   category.add(categoryModel);
 
   return category;

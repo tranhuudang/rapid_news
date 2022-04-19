@@ -34,19 +34,29 @@ class _HeadLinesState extends State<HeadLines> {
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: ListView.builder(
-                itemCount: listNewsInHome.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return BlogTile(
-                      imageUrl: listNewsInHome[index].imageUrl,
-                      title: listNewsInHome[index].title,
-                      description: listNewsInHome[index].description,
-                      url: listNewsInHome[index].url);
-                }),
-          );
+        : RefreshIndicator(
+
+      onRefresh: () async {
+        setState(() {
+          _loading=true;
+          getNews();
+        });
+
+      },
+          child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                  itemCount: listNewsInHome.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return BlogTile(
+                        imageUrl: listNewsInHome[index].imageUrl,
+                        title: listNewsInHome[index].title,
+                        description: listNewsInHome[index].description,
+                        url: listNewsInHome[index].url);
+                  }),
+            ),
+        );
   }
 }
 

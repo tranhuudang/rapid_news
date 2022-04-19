@@ -43,38 +43,44 @@ class CategoryTile extends StatelessWidget {
   CategoryTile({this.imageUrl, this.categoryName});
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ListFoundedNews(categoryName)));
-      },
-      child: Container(
-        child: Stack(
-          children: [
-            Image.asset(
-              imageUrl,
-              width: MediaQuery.of(context).size.width,
-              height: 120,
-              fit: BoxFit.cover,
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 40),
-              height: 120,
-              decoration: BoxDecoration(
-                color: Colors.black54,
-              ),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                categoryName,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, top: 6, right: 15, bottom: 6),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ListFoundedNews(categoryName)));
+          },
+          child: Container(
+            child: Stack(
+              children: [
+                Image.asset(
+                  imageUrl,
+                  width: MediaQuery.of(context).size.width,
+                  height: 100,
+                  fit: BoxFit.cover,
                 ),
-              ),
+                Container(
+                  padding: EdgeInsets.only(left: 40),
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                  ),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    categoryName,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
