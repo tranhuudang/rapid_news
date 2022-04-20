@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:rapid/rapidProp.dart';
-
+import 'package:share_plus/share_plus.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
@@ -21,16 +23,41 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
   late Directory dir;
   String fileName = "favourite.json";
   bool fileExists = false;
-  Map<String, dynamic>? fileContent;
+  late Map<String, dynamic> fileContent;
   bool websiteLoading = true;
+  bool _isHearted = false;
+
+  /// Timer = 10 so CircularProgressIndicator is only allowed to run on 10 second
+  late Timer _timer;
 
   @override
   void initState() {
     super.initState();
+
     getApplicationDocumentsDirectory().then((Directory directory) {
       dir = directory;
       jsonFile = File(dir.path + "/" + fileName);
       fileExists = jsonFile.existsSync();
+      fileContent= json.decode(jsonFile.readAsStringSync());
+      if(fileContent.containsKey(widget.title))
+      {
+        setState(() {
+          _isHearted= true;
+        });
+
+      }
+    });
+
+    timerStart();
+  }
+
+  void timerStart() {
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      print(timer.tick);
+      setState(() {
+        websiteLoading = false;
+        _timer.cancel();
+      });
     });
   }
 
@@ -57,6 +84,21 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
       createFile(content, dir, fileName);
     }
     print(fileContent);
+  }
+
+  void removeItemInFavourite(String title, String url) {
+    print("Removing item!");
+    if (fileExists) {
+      print("File exists");
+      Map<String, dynamic> jsonFileContent =
+          json.decode(jsonFile.readAsStringSync());
+      jsonFileContent.removeWhere((key, value) => key == title);
+
+      jsonFile.writeAsStringSync(json.encode(jsonFileContent));
+    } else {
+      print("File does not exist!");
+    }
+    //print(fileContent);
   }
 
   late InAppWebViewController _controller;
@@ -86,6 +128,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
                     child: CircularProgressIndicator(),
                   ))
               : IconButton(
+                  /// reload button
                   color: RapidProp.darkMode
                       ? RapidProp.darkModeProp.appBarIconColor
                       : RapidProp.lightModeProp.appBarIconColor,
@@ -98,27 +141,42 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
                   },
                 ),
           IconButton(
+            /// heart button
+            color: _isHearted
+                ? Colors.red
+                : RapidProp.darkMode
+                    ? RapidProp.darkModeProp.appBarIconColor
+                    : RapidProp.lightModeProp.appBarIconColor,
+            icon:  Icon( _isHearted? Icons.favorite : Icons.favorite_border),
+            onPressed: () {
+              setState(() {
+                _isHearted = !_isHearted;
+              });
+              if (_isHearted) {
+                writeToFile(widget.title, widget.url);
+              } else {
+                removeItemInFavourite(widget.title, widget.url);
+              }
+              ;
+            },
+          ),
+          IconButton(
+            /// reload button
             color: RapidProp.darkMode
                 ? RapidProp.darkModeProp.appBarIconColor
                 : RapidProp.lightModeProp.appBarIconColor,
-            icon: const Icon(Icons.favorite_border),
+            icon: Icon(Icons.share),
             onPressed: () {
-              writeToFile(widget.title, widget.url);
+             Share.share(widget.url);
             },
           ),
         ],
       ),
       body: Container(
         child: InAppWebView(
-          onProgressChanged: (controller, percent){
-            if(percent==0)
-              {
-                websiteLoading = false;
-              }
-          },
           onLoadStop: (controller, url) {
             setState(() {
-
+              websiteLoading = false;
             });
           },
           onWebViewCreated: ((controller) {
