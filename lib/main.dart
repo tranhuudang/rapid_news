@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:rapid/rapidProp.dart';
-import 'views/home.dart';
+import 'pages/home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

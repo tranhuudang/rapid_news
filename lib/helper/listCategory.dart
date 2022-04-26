@@ -1,4 +1,4 @@
-import 'package:rapid/model/category_model.dart';
+import 'package:rapid/object/category_model.dart';
 
 List<CategoryModel> getCategories(){
   List<CategoryModel> category= <CategoryModel>[];

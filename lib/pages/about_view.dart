@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -81,7 +81,7 @@ class _AboutState extends State<About> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -99,7 +99,7 @@ class _AboutState extends State<About> {
                             fontSize: 26,
                           ),
                         ),
-                        Text(
+                        const Text(
                           "News",
                           style: TextStyle(
                             color: Colors.red,
@@ -118,17 +118,17 @@ class _AboutState extends State<About> {
               Expanded(
                 flex: 3,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 90),
+                  padding: const EdgeInsets.symmetric(horizontal: 80),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           IconButton(
-                            icon: Icon(Icons.person_pin),
+                            icon: const Icon(Icons.person_pin),
                             onPressed: () {},
                           ),
-                          Text(
+                          const Text(
                             "Tran Huu Dang",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
@@ -138,10 +138,10 @@ class _AboutState extends State<About> {
                       Row(
                         children: [
                           IconButton(
-                            icon: Icon(Icons.alternate_email),
+                            icon: const Icon(Icons.alternate_email),
                             onPressed: () {},
                           ),
-                          Text(
+                          const Text(
                             "tranhuudang127@gmail.com",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
@@ -151,10 +151,10 @@ class _AboutState extends State<About> {
                       Row(
                         children: [
                           IconButton(
-                            icon: Icon(Icons.http),
+                            icon: const Icon(Icons.http),
                             onPressed: () {},
                           ),
-                          Text(
+                          const Text(
                             "www.zeroclub.one",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
@@ -165,10 +165,10 @@ class _AboutState extends State<About> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
-              Expanded(
+              const Expanded(
                 flex: 1,
                 child: Text(
                   "ZeroClub",

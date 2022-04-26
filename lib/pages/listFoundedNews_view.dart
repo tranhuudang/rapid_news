@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rapid/helper/listNews.dart';
-import 'package:rapid/model/article_model.dart';
-import 'package:rapid/views/readingSpace_view.dart';
+import 'package:rapid/object/article_model.dart';
+import 'package:rapid/pages/readingSpace_view.dart';
 
 import '../rapidProp.dart';
 
@@ -23,7 +23,7 @@ class _ListFoundedNewsState extends State<ListFoundedNews> {
   getNews() async {
     ListNews listNews = ListNews(topic: widget.searchTopic);
     await listNews.getNews();
-    listNewsInHome = listNews.listNews;
+    listNewsInHome = listNews.listGotNews;
     setState(() {
       _loading = false;
     });

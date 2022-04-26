@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rapid/helper/listNews.dart';
-import 'package:rapid/model/article_model.dart';
+import 'package:rapid/object/article_model.dart';
 import 'package:rapid/rapidProp.dart';
-import 'package:rapid/views/readingSpace_view.dart';
+import 'package:rapid/pages/readingSpace_view.dart';
 
 class HeadLines extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _HeadLinesState extends State<HeadLines> {
   getNews() async {
     ListNews listNews = ListNews(topic: "headlines");
     await listNews.getNews();
-    listNewsInHome = listNews.listNews;
+    listNewsInHome = listNews.listGotNews;
     setState(() {
       _loading = false;
     });
@@ -35,7 +35,6 @@ class _HeadLinesState extends State<HeadLines> {
             child: CircularProgressIndicator(),
           )
         : RefreshIndicator(
-
       onRefresh: () async {
         setState(() {
           _loading=true;

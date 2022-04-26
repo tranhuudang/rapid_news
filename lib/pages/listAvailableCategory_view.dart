@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rapid/helper/listCategory.dart';
-import 'package:rapid/model/category_model.dart';
+import 'package:rapid/object/category_model.dart';
 import 'listFoundedNews_view.dart';
 
 class ListAvailableCategory extends StatefulWidget {

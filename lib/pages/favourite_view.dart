@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:rapid/rapidProp.dart';
-import 'package:rapid/views/readingSpace_view.dart';
+import 'package:rapid/pages/readingSpace_view.dart';
 import 'package:path_provider/path_provider.dart';
-import '../model/favouriteSite_model.dart';
+import '../object/favouriteSite_model.dart';
 
 class Favourite extends StatefulWidget {
   const Favourite({Key? key}) : super(key: key);
@@ -116,7 +116,7 @@ class _FavouriteState extends State<Favourite> {
   }
 }
 
-/// List Item model
+/// List Item object
 class FavouriteTile extends StatelessWidget {
   FavouriteTile({required this.title, required this.url});
   String title, url;

@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rapid/rapidProp.dart';
-import 'package:rapid/views/favourite_view.dart';
-import 'package:rapid/views/listAvailableCategory_view.dart';
+import 'package:rapid/pages/favourite_view.dart';
+import 'package:rapid/pages/listAvailableCategory_view.dart';
 import 'userSettings_view.dart';
 import 'headline_view.dart';
 import 'package:shimmer/shimmer.dart';
