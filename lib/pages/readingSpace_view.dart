@@ -7,6 +7,7 @@ import 'package:share_plus/share_plus.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
+import 'package:rapid/blockAdsModule/hostList.dart';
 
 class ReadingSpaceView extends StatefulWidget {
   ReadingSpaceView(this.url, this.title);
@@ -26,6 +27,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
   late Map<String, dynamic> fileContent;
   bool websiteLoading = true;
   bool _isHearted = false;
+
 
   /// Timer = 10 so CircularProgressIndicator is only allowed to run on 10 second
   late Timer _timer;
@@ -174,6 +176,17 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
       ),
       body: Container(
         child: InAppWebView(
+          androidShouldInterceptRequest: (controller, request) async {
+            List<String> adblockList = HostList.urls;
+            var url = request.url.toString();
+            var i = 0;
+            while(i<adblockList.length){
+              if(url.contains(adblockList.elementAt(i))){
+                return WebResourceResponse();
+              }
+              i++;
+            }
+          },
           onLoadStop: (controller, url) {
             setState(() {
               websiteLoading = false;
@@ -186,6 +199,8 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
             crossPlatform: InAppWebViewOptions(),
             ios: IOSInAppWebViewOptions(),
             android: AndroidInAppWebViewOptions(
+              // intercept while loading a url
+              useShouldInterceptRequest: true,
               useHybridComposition: true,
               forceDark: RapidProp.darkMode
                   ? AndroidForceDark.FORCE_DARK_ON
