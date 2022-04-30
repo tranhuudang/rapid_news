@@ -56,10 +56,11 @@ class _UserSettingsState extends State<UserSettings> {
                   "Unfamiliar contents will be filtered out to keep you focus on the road."),
               onChanged: (value) {
                 setState(() {
-
+                  RapidProp.readingMode = value;
+                  RapidProp.settings.setReadingMode(value);
                 });
               },
-              value: false,
+              value: RapidProp.readingMode,
             ),
             SwitchListTile(
               secondary: Icon(Icons.data_saver_on),

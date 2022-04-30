@@ -19,6 +19,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late bool darkMode;
   late bool dataSaver;
+  late bool readingMode;
   bool loading = true;
   @override
   void initState() {
@@ -28,8 +29,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   loadSettings() async {
+    // load up Settings to app
     darkMode = await RapidProp.settings.getDarkMode();
     dataSaver = await RapidProp.settings.getDataSaver();
+    readingMode = await RapidProp.settings.getReadingMode();
     setState(() {
       loading = false;
     });

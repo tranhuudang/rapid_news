@@ -28,7 +28,6 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
   bool websiteLoading = true;
   bool _isHearted = false;
 
-
   /// Timer = 10 so CircularProgressIndicator is only allowed to run on 10 second
   late Timer _timer;
 
@@ -40,13 +39,11 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
       dir = directory;
       jsonFile = File(dir.path + "/" + fileName);
       fileExists = jsonFile.existsSync();
-      fileContent= json.decode(jsonFile.readAsStringSync());
-      if(fileContent.containsKey(widget.title))
-      {
+      fileContent = json.decode(jsonFile.readAsStringSync());
+      if (fileContent.containsKey(widget.title)) {
         setState(() {
-          _isHearted= true;
+          _isHearted = true;
         });
-
       }
     });
 
@@ -149,7 +146,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
                 : RapidProp.darkMode
                     ? RapidProp.darkModeProp.appBarIconColor
                     : RapidProp.lightModeProp.appBarIconColor,
-            icon:  Icon( _isHearted? Icons.favorite : Icons.favorite_border),
+            icon: Icon(_isHearted ? Icons.favorite : Icons.favorite_border),
             onPressed: () {
               setState(() {
                 _isHearted = !_isHearted;
@@ -169,7 +166,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
                 : RapidProp.lightModeProp.appBarIconColor,
             icon: Icon(Icons.share),
             onPressed: () {
-             Share.share(widget.url);
+              Share.share(widget.url);
             },
           ),
         ],
@@ -177,15 +174,15 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
       body: Container(
         child: InAppWebView(
           androidShouldInterceptRequest: (controller, request) async {
-            List<String> adblockList = HostList.urls;
-            var url = request.url.toString();
-            var i = 0;
-            while(i<adblockList.length){
-              if(url.contains(adblockList.elementAt(i))){
-                return WebResourceResponse();
+              List<String> adblockList = HostList.urls;
+              var url = request.url.toString();
+              var i = 0;
+              while (i < adblockList.length) {
+                if (url.contains(adblockList.elementAt(i))) {
+                  return WebResourceResponse();
+                }
+                i++;
               }
-              i++;
-            }
           },
           onLoadStop: (controller, url) {
             setState(() {
@@ -196,11 +193,14 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
             _controller = controller;
           }),
           initialOptions: InAppWebViewGroupOptions(
-            crossPlatform: InAppWebViewOptions(),
+            crossPlatform: InAppWebViewOptions(
+              /// Javascript disable will block pop up
+              javaScriptEnabled: !RapidProp.readingMode,
+            ),
             ios: IOSInAppWebViewOptions(),
             android: AndroidInAppWebViewOptions(
-              // intercept while loading a url
-              useShouldInterceptRequest: true,
+              /// Intercept while loading a url to fill out unwanted content ex: ads ( enabled when readingMode enabled )
+              useShouldInterceptRequest: RapidProp.readingMode,
               useHybridComposition: true,
               forceDark: RapidProp.darkMode
                   ? AndroidForceDark.FORCE_DARK_ON
