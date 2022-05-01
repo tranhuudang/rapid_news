@@ -30,6 +30,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
   bool websiteLoading = true;
   bool _isHearted = false;
   final translator = GoogleTranslator();
+  bool isBottomSheetOpen= false;
 
   /// Timer = 10 so CircularProgressIndicator is only allowed to run on 10 second
   late Timer _timer;
@@ -59,7 +60,10 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
 
   /// Other function
   void onClipboardChanged(String textInClipBoard) {
-    translateBox(context, textInClipBoard);
+    // Because we have an error here and this app will try to open more than one bottomsheet,
+    // so we need this "isBottomSheetOpen" to make sure that we only open one bottomsheet at a time.
+    if (!isBottomSheetOpen) translateBox(context, textInClipBoard);
+    isBottomSheetOpen= true;
   }
 
   double bottomSheetHeight = 200;
@@ -74,44 +78,40 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
     var translatedText =
         await translator.translate(rawText, from: 'auto', to: 'vi');
     showModalBottomSheet(
+      shape:RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        )
+      ),
         context: context,
         builder: (BuildContext bc) {
-          return Container(
-            height: bottomSheetHeight,
-            child: Padding(
-              padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-              child: Column(
-                children: [
-                  GestureDetector(
-                      onHorizontalDragDown: (details) {
-                        details.globalPosition.dy;
-                        print("ok");
-                      },
-                      onHorizontalDragUpdate: (details) {
-                        setState(() {
-                          bottomSheetHeight = details.globalPosition.dy;
-                        });
-                      },
-                      child: Icon(
-                        Icons.horizontal_rule,
-                        color: Color.fromRGBO(229, 18, 125, 100),
-                        size: 25,
-                      )),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Center(
-                        child: Text(
-                          translatedText.toString(),
-                          style: TextStyle(fontSize: 18),
-                        ),
+          return Padding(
+            padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+            child: Wrap(
+              direction: Axis.horizontal,
+              children: [
+                Column(
+                  children: [
+                    SizedBox(height: 20,),
+                    Text("Definitions", style: TextStyle(color: Colors.black45),),
+                    SizedBox(height: 10,),
+                  ],
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Center(
+                      child: Text(
+                        translatedText.toString().substring(0,1).toUpperCase()+translatedText.toString().substring(1,translatedText.toString().length),
+                        style: TextStyle(fontSize: 18),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
-        });
+        }).whenComplete(() => isBottomSheetOpen = false);
   }
 
   void timerStart() {
