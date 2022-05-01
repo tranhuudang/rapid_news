@@ -6,7 +6,7 @@ class RapidProp
 {
   static bool darkMode = false;
   static bool dataSaver = false;
-  static bool readingMode = false;
+  static bool readingMode = true;
   static Map<String, dynamic> oldFavouriteList= {"":""};
   ///Dark mode
   static DarkMode darkModeProp= DarkMode();
@@ -71,7 +71,7 @@ class Settings{
   Future<bool> getReadingMode() async{
     final prefs = await SharedPreferences.getInstance();
     bool value = false;
-    value= prefs.getBool('readingMode')?? false;
+    value= prefs.getBool('readingMode')?? true;
     RapidProp.readingMode= value;
     print("get readingMode success");
     return value;

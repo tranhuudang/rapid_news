@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'dart:ui';
+import 'package:clipboard_monitor/clipboard_monitor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:rapid/rapidProp.dart';
@@ -8,6 +9,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
 import 'package:rapid/blockAdsModule/hostList.dart';
+import 'package:translator/translator.dart';
 
 class ReadingSpaceView extends StatefulWidget {
   ReadingSpaceView(this.url, this.title);
@@ -27,14 +29,18 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
   late Map<String, dynamic> fileContent;
   bool websiteLoading = true;
   bool _isHearted = false;
+  final translator = GoogleTranslator();
 
   /// Timer = 10 so CircularProgressIndicator is only allowed to run on 10 second
   late Timer _timer;
 
+  /// Initial State of ReadingSpace Widget
   @override
   void initState() {
     super.initState();
-
+    // Monitor Clipboard to get selected text
+    ClipboardMonitor.registerCallback(onClipboardChanged);
+    // Get local document directory to open or save hearted page in it
     getApplicationDocumentsDirectory().then((Directory directory) {
       dir = directory;
       jsonFile = File(dir.path + "/" + fileName);
@@ -47,7 +53,65 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
       }
     });
 
+    // Timer for loading icon automatically close after 10 seconds
     timerStart();
+  }
+
+  /// Other function
+  void onClipboardChanged(String textInClipBoard) {
+    translateBox(context, textInClipBoard);
+  }
+
+  double bottomSheetHeight = 200;
+
+  @override
+  void dispose() {
+    ClipboardMonitor.unregisterCallback(onClipboardChanged);
+    super.dispose();
+  }
+
+  void translateBox(context, String rawText) async {
+    var translatedText =
+        await translator.translate(rawText, from: 'auto', to: 'vi');
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            height: bottomSheetHeight,
+            child: Padding(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              child: Column(
+                children: [
+                  GestureDetector(
+                      onHorizontalDragDown: (details) {
+                        details.globalPosition.dy;
+                        print("ok");
+                      },
+                      onHorizontalDragUpdate: (details) {
+                        setState(() {
+                          bottomSheetHeight = details.globalPosition.dy;
+                        });
+                      },
+                      child: Icon(
+                        Icons.horizontal_rule,
+                        color: Color.fromRGBO(229, 18, 125, 100),
+                        size: 25,
+                      )),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Center(
+                        child: Text(
+                          translatedText.toString(),
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   void timerStart() {
@@ -174,15 +238,15 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
       body: Container(
         child: InAppWebView(
           androidShouldInterceptRequest: (controller, request) async {
-              List<String> adblockList = HostList.urls;
-              var url = request.url.toString();
-              var i = 0;
-              while (i < adblockList.length) {
-                if (url.contains(adblockList.elementAt(i))) {
-                  return WebResourceResponse();
-                }
-                i++;
+            List<String> adblockList = HostList.urls;
+            var url = request.url.toString();
+            var i = 0;
+            while (i < adblockList.length) {
+              if (url.contains(adblockList.elementAt(i))) {
+                return WebResourceResponse();
               }
+              i++;
+            }
           },
           onLoadStop: (controller, url) {
             setState(() {

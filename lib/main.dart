@@ -1,11 +1,13 @@
 import 'dart:ui';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:rapid/rapidProp.dart';
 import 'pages/home.dart';
 
-void main() {
+
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(RestartWidget(child: MyApp()));
 }
 
