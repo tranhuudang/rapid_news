@@ -22,6 +22,7 @@ class _MyAppState extends State<MyApp> {
   late bool darkMode;
   late bool dataSaver;
   late bool readingMode;
+  late bool translator;
   bool loading = true;
   @override
   void initState() {
@@ -35,6 +36,7 @@ class _MyAppState extends State<MyApp> {
     darkMode = await RapidProp.settings.getDarkMode();
     dataSaver = await RapidProp.settings.getDataSaver();
     readingMode = await RapidProp.settings.getReadingMode();
+    translator = await RapidProp.settings.getTranslator();
     setState(() {
       loading = false;
     });

@@ -75,8 +75,8 @@ class _AboutState extends State<About> {
                         child: Image.asset(
 
                           "resources/images/rapid.png",
-                          height: 200,
-                          width: 200,
+                          height: 120,
+                          width: 120,
 
                         ),
                       ),
@@ -117,10 +117,10 @@ class _AboutState extends State<About> {
               ),
               Expanded(
                 flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 80),
+                child: Center(
+                  //padding: const EdgeInsets.symmetric(horizontal: 80),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [

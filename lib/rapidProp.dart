@@ -7,6 +7,7 @@ class RapidProp
   static bool darkMode = false;
   static bool dataSaver = false;
   static bool readingMode = true;
+  static bool translator= true;
   static Map<String, dynamic> oldFavouriteList= {"":""};
   ///Dark mode
   static DarkMode darkModeProp= DarkMode();
@@ -74,6 +75,19 @@ class Settings{
     value= prefs.getBool('readingMode')?? true;
     RapidProp.readingMode= value;
     print("get readingMode success");
+    return value;
+  }
+  void setTranslator(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('translator', value);
+    RapidProp.translator= value;
+  }
+  Future<bool> getTranslator() async{
+    final prefs = await SharedPreferences.getInstance();
+    bool value = false;
+    value= prefs.getBool('translator')?? true;
+    RapidProp.translator= value;
+    print("get translator success");
     return value;
   }
 }

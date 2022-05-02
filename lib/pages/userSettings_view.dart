@@ -63,6 +63,22 @@ class _UserSettingsState extends State<UserSettings> {
               value: RapidProp.readingMode,
             ),
             SwitchListTile(
+              secondary: Icon(Icons.translate),
+              title: Text(
+                "Translator",
+                style: TextStyle(),
+              ),
+              subtitle: Text(
+                  "Instantly translate after copy."),
+              onChanged: (value) {
+                setState(() {
+                  RapidProp.translator = value;
+                  RapidProp.settings.setTranslator(value);
+                });
+              },
+              value: RapidProp.translator,
+            ),
+            SwitchListTile(
               secondary: Icon(Icons.data_saver_on),
               title: Text(
                 "Data Saver",

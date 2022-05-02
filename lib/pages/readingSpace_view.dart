@@ -40,7 +40,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
   void initState() {
     super.initState();
     // Monitor Clipboard to get selected text
-    ClipboardMonitor.registerCallback(onClipboardChanged);
+    RapidProp.translator? ClipboardMonitor.registerCallback(onClipboardChanged): print("not enable translator");
     // Get local document directory to open or save hearted page in it
     getApplicationDocumentsDirectory().then((Directory directory) {
       dir = directory;
@@ -60,8 +60,8 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
 
   /// Other function
   void onClipboardChanged(String textInClipBoard) {
-    // Because we have an error here and this app will try to open more than one bottomsheet,
-    // so we need this "isBottomSheetOpen" to make sure that we only open one bottomsheet at a time.
+    // Because we have an error here and this app will try to open more than one bottomSheet,
+    // so we need this "isBottomSheetOpen" to make sure that we only open one bottomSheet at a time.
     if (!isBottomSheetOpen) translateBox(context, textInClipBoard);
     isBottomSheetOpen= true;
   }
@@ -73,12 +73,12 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
     ClipboardMonitor.unregisterCallback(onClipboardChanged);
     super.dispose();
   }
-
+ /// Translate procedure and bottomSheet
   void translateBox(context, String rawText) async {
     var translatedText =
         await translator.translate(rawText, from: 'auto', to: 'vi');
     showModalBottomSheet(
-      shape:RoundedRectangleBorder(
+      shape:const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -94,7 +94,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
                 Column(
                   children: [
                     SizedBox(height: 20,),
-                    Text("Definitions", style: TextStyle(color: Colors.black45),),
+                    Text("Definitions", style: TextStyle(color: RapidProp.darkMode? Colors.white54: Colors.black45),),
                     SizedBox(height: 10,),
                   ],
                 ),
@@ -102,6 +102,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
                   child: SingleChildScrollView(
                     child: Center(
                       child: Text(
+                        // Upper case the first letter
                         translatedText.toString().substring(0,1).toUpperCase()+translatedText.toString().substring(1,translatedText.toString().length),
                         style: TextStyle(fontSize: 18),
                       ),
