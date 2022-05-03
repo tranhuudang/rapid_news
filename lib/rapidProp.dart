@@ -9,6 +9,7 @@ class RapidProp
   static bool readingMode = true;
   static bool translator= true;
   static Map<String, dynamic> oldFavouriteList= {"":""};
+  static Map<String, dynamic> oldWebsiteList= {"":""};
   ///Dark mode
   static DarkMode darkModeProp= DarkMode();
   static LightMode lightModeProp= LightMode();

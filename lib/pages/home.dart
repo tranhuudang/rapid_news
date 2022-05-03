@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rapid/rapidProp.dart';
 import 'package:rapid/pages/favourite_view.dart';
@@ -35,7 +36,6 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         backgroundColor: RapidProp.darkMode? RapidProp.darkModeProp.appBarBackgroundColor: RapidProp.lightModeProp.appBarBackgroundColor,
         title: Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
             Shimmer.fromColors(
@@ -47,18 +47,27 @@ class _HomeState extends State<Home> {
               child: const Text(
                 "Rapid",
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w900,
                   fontSize: 26,
                 ),
               ),
             ),
-            const Text(
-              "News",
-              style: TextStyle(
+            ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              child:  Container(
                 color: Colors.red,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 3, 5, 3),
+                  child: Text(
+                    "News",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
@@ -78,7 +87,8 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      body: Container(
+      body:
+      Container(
         child: Column(
           children: [
             /// Place to add page to Home
@@ -108,7 +118,7 @@ class _HomeState extends State<Home> {
                     },
                   ),
                   IconButton(
-                    icon: const Icon(Icons.view_module),
+                    icon: const Icon(CupertinoIcons.square_split_2x2),
                     onPressed: () {
                       setState(() {
                         currentView = const ListAvailableCategory();

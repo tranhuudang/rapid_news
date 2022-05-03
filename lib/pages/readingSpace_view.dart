@@ -260,7 +260,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
           initialOptions: InAppWebViewGroupOptions(
             crossPlatform: InAppWebViewOptions(
               /// Javascript disable will block pop up
-              javaScriptEnabled: !RapidProp.readingMode,
+              //javaScriptEnabled: !RapidProp.readingMode,
             ),
             ios: IOSInAppWebViewOptions(),
             android: AndroidInAppWebViewOptions(
@@ -274,10 +274,9 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
             ),
           ),
           initialUrlRequest: URLRequest(
-            url: Uri.parse(widget.url),
+            url: Uri.parse(widget.url.contains("http")?(widget.url.contains("https")? widget.url: widget.url.replaceAll("http://", "https://")): "https://"+widget.url)),
           ),
         ),
-      ),
-    );
+      );
   }
 }
