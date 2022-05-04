@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class RapidProp
 {
+  static String weatherAPIkey = "6fc32b4b2a5c4c32e95f4be0e0ee8ed9";
   static bool darkMode = false;
   static bool dataSaver = false;
   static bool readingMode = true;
@@ -11,6 +12,10 @@ class RapidProp
   static bool javaScriptEnabled= true;
   static Map<String, dynamic> oldFavouriteList= {"":""};
   static Map<String, dynamic> oldWebsiteList= {"":""};
+  /// Weather Prop
+  static String weatherDistrict="";
+  static String weatherTemp="";
+  static String weatherDescription="";
   ///Dark mode
   static DarkMode darkModeProp= DarkMode();
   static LightMode lightModeProp= LightMode();

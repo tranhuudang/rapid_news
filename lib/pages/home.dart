@@ -9,6 +9,7 @@ import 'headline_view.dart';
 import 'package:shimmer/shimmer.dart';
 import 'search_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -57,12 +58,12 @@ class _HomeState extends State<Home> {
                 period: const Duration(seconds: 3),
                 loop: 3,
                 enabled: true,
-                child: const Text(
+                child:  Text(
                   "Rapid",
-                  style: TextStyle(
+                  style: GoogleFonts.tinos(textStyle: TextStyle(
                     fontWeight: FontWeight.w900,
                     fontSize: 26,
-                  ),
+                  )),
                 ),
               ),
               ClipRRect(
