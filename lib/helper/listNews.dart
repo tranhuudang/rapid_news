@@ -29,12 +29,10 @@ class ListNews {
     else if(availableCategory.contains(topic.toLowerCase()))
       {
         sourceUrl = Uri.parse("https://saurav.tech/NewsAPI/top-headlines/category/"+topic.toLowerCase()+"/us.json");
-        print("I'm here. Alter source data is used");
       }
     else {
       sourceUrl = Uri.parse("https://newsapi.org/v2/everything?q=" + topic +
           "&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f");
-      print("Data fetch from NewsApi");
     }
 
     var response = await http.get(sourceUrl);

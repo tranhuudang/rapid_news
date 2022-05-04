@@ -1,8 +1,9 @@
-
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rapid/rapidProp.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);
@@ -58,54 +59,46 @@ class _AboutState extends State<About> {
           child: Column(
             children: [
               Expanded(
-                flex: 7,
+                flex: 4,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    DottedBorder(
-                      strokeWidth: 3,
-                      strokeCap: StrokeCap.square,
-                      borderType: BorderType.Circle,
-                      child: Container(
-
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Image.asset(
-
-                          "resources/images/rapid.png",
-                          height: 120,
-                          width: 120,
-
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        Text(
-                          "Rapid",
-                          style: TextStyle(
-                            color: RapidProp.darkMode
-                                ? RapidProp.darkModeProp.logoNameBaseColor
-                                : RapidProp.lightModeProp.logoNameBaseColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 26,
+                        Shimmer.fromColors(
+                          highlightColor: Colors.white,
+                          baseColor: RapidProp.darkMode
+                              ? RapidProp.darkModeProp.logoNameBaseColor
+                              : RapidProp.lightModeProp.logoNameBaseColor,
+                          period: const Duration(seconds: 3),
+                          loop: 3,
+                          enabled: true,
+                          child: const Text(
+                            "Rapid",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 26,
+                            ),
                           ),
                         ),
-                        const Text(
-                          "News",
-                          style: TextStyle(
+                        ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          child: Container(
                             color: Colors.red,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(5, 3, 5, 3),
+                              child: Text(
+                                "News",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -120,46 +113,43 @@ class _AboutState extends State<About> {
                 child: Center(
                   //padding: const EdgeInsets.symmetric(horizontal: 80),
                   child: Column(
-                    //crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.person_pin),
-                            onPressed: () {},
-                          ),
-                          const Text(
-                            "Tran Huu Dang",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15),
-                          ),
-                        ],
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children:  [
+                      Text(
+                        "Tran Huu Dang",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15),
                       ),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.alternate_email),
-                            onPressed: () {},
-                          ),
-                          const Text(
-                            "tranhuudang127@gmail.com",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.http),
-                            onPressed: () {},
-                          ),
-                          const Text(
-                            "www.zeroclub.one",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+
+                          children:  [
+                            IconButton(icon: FaIcon(FontAwesomeIcons.facebookMessenger), onPressed: () async {
+                              if(await canLaunch("https://www.messenger.com/t/2839082629435553/"))
+                                {
+                                  await launch("https://www.messenger.com/t/2839082629435553/");
+                                }
+                            },),
+                            SizedBox(width: 10,),
+                            IconButton(icon: Icon(Icons.language, size: 30,), onPressed: () async{
+                              if(await canLaunch("https://zeroclub.one"))
+                              {
+                              await launch("https://zeroclub.one");
+                              }
+                            },),
+                            SizedBox(width: 10,),
+                            IconButton(icon: FaIcon(FontAwesomeIcons.github), onPressed: () async  {
+                              if(await canLaunch("https://github.com/tranhuudang"))
+                              {
+                              await launch("https://github.com/tranhuudang");
+                              }
+                            },),
+
+                          ],
+                        ),
                       ),
                     ],
                   ),

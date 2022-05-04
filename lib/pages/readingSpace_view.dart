@@ -30,7 +30,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
   bool websiteLoading = true;
   bool _isHearted = false;
   final translator = GoogleTranslator();
-  bool isBottomSheetOpen= false;
+  bool isBottomSheetOpen = false;
 
   /// Timer = 10 so CircularProgressIndicator is only allowed to run on 10 second
   late Timer _timer;
@@ -40,7 +40,9 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
   void initState() {
     super.initState();
     // Monitor Clipboard to get selected text
-    RapidProp.translator? ClipboardMonitor.registerCallback(onClipboardChanged): print("not enable translator");
+    RapidProp.translator
+        ? ClipboardMonitor.registerCallback(onClipboardChanged)
+        : print("not enable translator");
     // Get local document directory to open or save hearted page in it
     getApplicationDocumentsDirectory().then((Directory directory) {
       dir = directory;
@@ -63,7 +65,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
     // Because we have an error here and this app will try to open more than one bottomSheet,
     // so we need this "isBottomSheetOpen" to make sure that we only open one bottomSheet at a time.
     if (!isBottomSheetOpen) translateBox(context, textInClipBoard);
-    isBottomSheetOpen= true;
+    isBottomSheetOpen = true;
   }
 
   double bottomSheetHeight = 200;
@@ -73,17 +75,17 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
     ClipboardMonitor.unregisterCallback(onClipboardChanged);
     super.dispose();
   }
- /// Translate procedure and bottomSheet
+
+  /// Translate procedure and bottomSheet
   void translateBox(context, String rawText) async {
     var translatedText =
         await translator.translate(rawText, from: 'auto', to: 'vi');
     showModalBottomSheet(
-      shape:const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
-        )
-      ),
+        )),
         context: context,
         builder: (BuildContext bc) {
           return Padding(
@@ -93,41 +95,56 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
               children: [
                 Column(
                   children: [
-                    SizedBox(height: 20,),
-                    Text("Definitions", style: TextStyle(color: RapidProp.darkMode? Colors.white54: Colors.black45),),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Definitions",
+                      style: TextStyle(
+                          color: RapidProp.darkMode
+                              ? Colors.white54
+                              : Colors.black45),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
                   ],
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
+                SingleChildScrollView(
                     child: Center(
                       child: Text(
                         // Upper case the first letter
-                        translatedText.toString().substring(0,1).toUpperCase()+translatedText.toString().substring(1,translatedText.toString().length),
+                        translatedText
+                                .toString()
+                                .substring(0, 1)
+                                .toUpperCase() +
+                            translatedText
+                                .toString()
+                                .substring(1, translatedText.toString().length),
                         style: TextStyle(fontSize: 18),
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           );
         }).whenComplete(() => isBottomSheetOpen = false);
   }
 
+  /// Force to stop loading indicator after 10 seconds
   void timerStart() {
     _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      print(timer.tick);
-      setState(() {
-        websiteLoading = false;
-        _timer.cancel();
-      });
+      if (websiteLoading == true) {
+        setState(() {
+          websiteLoading = false;
+        });
+      }
+      _timer.cancel();
     });
   }
 
   void createFile(
       Map<String, dynamic> content, Directory dir, String fileName) {
-    print("Creating file!");
     File file = File(dir.path + "/" + fileName);
     file.createSync();
     fileExists = true;
@@ -135,34 +152,25 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
   }
 
   void writeToFile(String key, String value) {
-    print("Writing to file!");
     Map<String, dynamic> content = {key: value};
     if (fileExists) {
-      print("File exists");
       Map<String, dynamic> jsonFileContent =
           json.decode(jsonFile.readAsStringSync());
       jsonFileContent.addAll(content);
       jsonFile.writeAsStringSync(json.encode(jsonFileContent));
     } else {
-      print("File does not exist!");
       createFile(content, dir, fileName);
     }
-    print(fileContent);
   }
 
   void removeItemInFavourite(String title, String url) {
-    print("Removing item!");
     if (fileExists) {
-      print("File exists");
       Map<String, dynamic> jsonFileContent =
           json.decode(jsonFile.readAsStringSync());
       jsonFileContent.removeWhere((key, value) => key == title);
 
       jsonFile.writeAsStringSync(json.encode(jsonFileContent));
-    } else {
-      print("File does not exist!");
     }
-    //print(fileContent);
   }
 
   late InAppWebViewController _controller;
@@ -199,7 +207,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
                   icon: Icon(Icons.restart_alt),
                   onPressed: () {
                     setState(() {
-                      websiteLoading = false;
+                      websiteLoading = true;
                       reloadWebsite();
                     });
                   },
@@ -259,9 +267,10 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
           }),
           initialOptions: InAppWebViewGroupOptions(
             crossPlatform: InAppWebViewOptions(
-              /// Javascript disable will block pop up
-              //javaScriptEnabled: !RapidProp.readingMode,
-            ),
+
+                /// Javascript disable will block pop up
+                //javaScriptEnabled: !RapidProp.readingMode,
+                ),
             ios: IOSInAppWebViewOptions(),
             android: AndroidInAppWebViewOptions(
               /// Intercept while loading a url to fill out unwanted content ex: ads ( enabled when readingMode enabled )
@@ -274,9 +283,13 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
             ),
           ),
           initialUrlRequest: URLRequest(
-            url: Uri.parse(widget.url.contains("http")?(widget.url.contains("https")? widget.url: widget.url.replaceAll("http://", "https://")): "https://"+widget.url)),
-          ),
+              url: Uri.parse(widget.url.contains("http")
+                  ? (widget.url.contains("https")
+                      ? widget.url
+                      : widget.url.replaceAll("http://", "https://"))
+                  : "https://" + widget.url)),
         ),
-      );
+      ),
+    );
   }
 }

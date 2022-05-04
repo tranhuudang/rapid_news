@@ -8,6 +8,7 @@ import 'package:rapid/rapidProp.dart';
 import 'listFoundedNews_view.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rapid/object/favouriteWebsite_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ListAvailableCategory extends StatefulWidget {
   const ListAvailableCategory({Key? key}) : super(key: key);
@@ -38,7 +39,6 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
 
   Future<void> loadJsonToList() async {
     Map<String, dynamic> jsonData = json.decode(jsonFile.readAsStringSync());
-    print(json.decode(jsonFile.readAsStringSync()));
     if (RapidProp.oldWebsiteList == {"": ""}) {
       RapidProp.oldWebsiteList = jsonData;
       jsonData.forEach((title, url) {
@@ -65,27 +65,26 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
     }
   }
 
-  List<WebsiteTile> ReturnFavouriteWebsite() {
+  List<WebsiteTile> returnFavouriteWebsite() {
     List<WebsiteTile> outputList = [];
-    listFavourite.forEach((element) {
+    for (var element in listFavourite) {
       outputList.add(WebsiteTile(title: element.title, url: element.url));
-    });
+    }
     return outputList;
   }
 
-  List<Widget> ReturnCategory() {
+  List<Widget> returnCategory() {
     List<Widget> outputList = [];
-    category.forEach((element) {
+    for (var element in category) {
       outputList.add(CategoryTile(
           imageUrl: element.imagePath, categoryName: element.categoryName));
-    });
+    }
 
     return outputList;
   }
 
   void createFile(
       Map<String, dynamic> content, Directory dir, String fileName) {
-    print("Creating file!");
     File file = File(dir.path + "/" + fileName);
     file.createSync();
     fileExists = true;
@@ -93,16 +92,13 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
   }
 
   void writeToFile(String key, String value) {
-    print("Writing to file!");
     Map<String, dynamic> content = {key: value};
     if (fileExists) {
-      print("File exists");
       Map<String, dynamic> jsonFileContent =
           json.decode(jsonFile.readAsStringSync());
       jsonFileContent.addAll(content);
       jsonFile.writeAsStringSync(json.encode(jsonFileContent));
     } else {
-      print("File does not exist!");
       createFile(content, dir, fileName);
     }
   }
@@ -119,12 +115,12 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: ClipRRect(
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
               child: Container(
                 color: Colors.red,
-                child: Padding(
+                child: const Padding(
                   padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
                   child: Text(
                     "Favourite Publishers",
@@ -147,7 +143,7 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
                   alignment: WrapAlignment.start,
                   spacing: 12,
                   runSpacing: 12,
-                  children: ReturnFavouriteWebsite()),
+                  children: returnFavouriteWebsite()),
 
               /// Default add button to add more website to the page
               TextButton(
@@ -190,26 +186,26 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
                                             urlTextController.text);
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text("Add"),
+                                      child: const Text("Add"),
                                     )
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 TextField(
                                   controller: titleTextController,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     labelText: "Title",
                                     border: OutlineInputBorder(),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 TextField(
                                   controller: urlTextController,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     labelText: "URL",
                                     border: OutlineInputBorder(),
                                   ),
@@ -220,7 +216,7 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
                         );
                       });
                 },
-                child: Text("Add a website"),
+                child: const Text("Add a website"),
               ),
             ],
           ),
@@ -230,12 +226,12 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: ClipRRect(
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
               child: Container(
                 color: Colors.red,
-                child: Padding(
+                child: const Padding(
                   padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
                   child: Text(
                     "Categories",
@@ -246,10 +242,9 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
             ),
           ),
         ),
-        Expanded(
-          child: Column(
-            children: ReturnCategory(),
-          ),
+         Column(
+            children: returnCategory(),
+
         ),
       ],
     );
@@ -257,54 +252,57 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
 }
 
 class WebsiteTile extends StatelessWidget {
-  String title, url;
-
+  final String title, url;
   WebsiteTile({required this.title, required this.url});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ReadingSpaceView(url, title)));
-      },
-      child:  Column(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(20),
-            ),
-            child: Image.network(
-                "https://www.google.com/s2/favicons?sz=128&domain_url=" + url,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover, errorBuilder: (BuildContext context,
-                    Object exception, StackTrace? stackTrace) {
-                  return ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                      Radius.circular(30),),
-                    child: Container(
-color: Colors.white,
-                      width: 60,
-                      height: 60,
-                      child: Icon(Icons.public, color: Colors.blue, size: 35,),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ReadingSpaceView(url, title)));
+        },
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
+              child: CachedNetworkImage(
+                  imageUrl: "https://www.google.com/s2/favicons?sz=128&domain_url=" + url,
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.cover, errorWidget: (BuildContext context,
+                      String exception, dynamic stackTrace) {
+                return ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(30),
+                  ),
+                  child: Container(
+                    color: Colors.white,
+                    width: 60,
+                    height: 60,
+                    child: const Icon(
+                      Icons.public,
+                      color: Colors.blue,
+                      size: 35,
                     ),
-                  );
-            }),
-          ),
-          Text(title)
-        ],
-      )
-    );
+                  ),
+                );
+              }),
+            ),
+            Text(title)
+          ],
+        ));
   }
 }
 
 /// Category Frame
 class CategoryTile extends StatelessWidget {
-  final imageUrl, categoryName;
-  CategoryTile({this.imageUrl, this.categoryName});
+  final String imageUrl, categoryName;
+  CategoryTile({required this.imageUrl, required this.categoryName});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -318,32 +316,30 @@ class CategoryTile extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => ListFoundedNews(categoryName)));
           },
-          child: Container(
-            child: Stack(
-              children: [
-                Image.asset(
-                  imageUrl,
-                  width: MediaQuery.of(context).size.width,
-                  height: 70,
-                  fit: BoxFit.cover,
+          child: Stack(
+            children: [
+              Image.asset(
+                imageUrl,
+                width: MediaQuery.of(context).size.width,
+                height: 70,
+                fit: BoxFit.cover,
+              ),
+              Container(
+                padding: const EdgeInsets.only(left: 40),
+                height: 70,
+                decoration: const BoxDecoration(
+                  color: Colors.black54,
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 40),
-                  height: 70,
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                  ),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    categoryName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  categoryName,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

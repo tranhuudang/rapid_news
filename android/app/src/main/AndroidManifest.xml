@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rapid">
+    package="one.zeroclub.rapid">
    <application
         android:label="Rapid"
         android:name="${applicationName}"
@@ -32,4 +32,11 @@
             android:value="2" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <queries>
+    <!-- If your app opens https URLs -->
+    <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <data android:scheme="https" />
+    </intent>
+    </queries>
 </manifest>

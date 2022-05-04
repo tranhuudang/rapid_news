@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rapid/helper/listNews.dart';
 import 'package:rapid/object/article_model.dart';
 import 'package:rapid/pages/readingSpace_view.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import '../rapidProp.dart';
 
 ///https://newsapi.org/v2/everything?q=computer&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f for everything
@@ -109,8 +109,8 @@ class BlogTile extends StatelessWidget {
                   flex: 3,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      imageUrl,
+                    child:CachedNetworkImage(
+                      imageUrl: imageUrl,
                       width: 400,
                       height: 200,
                       fit: BoxFit.cover,

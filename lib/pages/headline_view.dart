@@ -3,6 +3,7 @@ import 'package:rapid/helper/listNews.dart';
 import 'package:rapid/object/article_model.dart';
 import 'package:rapid/rapidProp.dart';
 import 'package:rapid/pages/readingSpace_view.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HeadLines extends StatefulWidget {
   @override
@@ -107,8 +108,8 @@ class BlogTile extends StatelessWidget {
                   flex: 3,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      imageUrl,
+                    child: CachedNetworkImage(
+                      imageUrl: imageUrl,
                       width: 400,
                       height: 200,
                       fit: BoxFit.cover,
@@ -154,7 +155,6 @@ class SmallBlogTile extends StatelessWidget {
      {
        titleWithoutPublisher= titleWithoutPublisher.substring(0,80)+"..";
      }
-   print(titleWithoutPublisher);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -177,8 +177,8 @@ class SmallBlogTile extends StatelessWidget {
                   flex: 2,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      imageUrl,
+                    child: CachedNetworkImage(
+                      imageUrl: imageUrl,
                       width: 120,
                       height: 120,
                       fit: BoxFit.cover,
@@ -188,7 +188,7 @@ class SmallBlogTile extends StatelessWidget {
                 // const SizedBox(
                 //   height: 20,
                 // ),
-                SizedBox(width: 10,),
+                const SizedBox(width: 10,),
                 Expanded(
                   flex: 3,
                   child: Center(

@@ -14,8 +14,6 @@ class RapidProp
   static DarkMode darkModeProp= DarkMode();
   static LightMode lightModeProp= LightMode();
   static Settings settings= Settings();
-
-
 }
 class DarkMode
 {
@@ -49,7 +47,6 @@ class Settings{
     bool value = false;
     value= prefs.getBool('darkMode')?? false;
     RapidProp.darkMode= value;
-    print("get darkMode success");
     return value;
   }
   void setDataSaver(bool value) async {
@@ -62,7 +59,6 @@ class Settings{
     bool value = false;
     value= prefs.getBool('dataSaver')?? false;
     RapidProp.dataSaver= value;
-    print("get DataSaver success");
     return value;
   }
   void setReadingMode(bool value) async {
@@ -75,7 +71,6 @@ class Settings{
     bool value = false;
     value= prefs.getBool('readingMode')?? true;
     RapidProp.readingMode= value;
-    print("get readingMode success");
     return value;
   }
   void setTranslator(bool value) async {
@@ -88,7 +83,6 @@ class Settings{
     bool value = false;
     value= prefs.getBool('translator')?? true;
     RapidProp.translator= value;
-    print("get translator success");
     return value;
   }
 }
