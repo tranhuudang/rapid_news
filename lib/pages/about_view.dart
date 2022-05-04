@@ -33,6 +33,11 @@ class _AboutState extends State<About> {
     });
   }
 
+
+  final messengerUrl = Uri.parse('https://m.me/D11000111111101');
+  final websiteUrl = Uri.parse('https://www.zeroclub.one');
+  final githubUrl = Uri.parse('https://github.com/tranhuudang');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,11 +89,11 @@ class _AboutState extends State<About> {
                           ),
                         ),
                         ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
                           child: Container(
                             color: Colors.red,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(5, 3, 5, 3),
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                               child: Text(
                                 "News",
                                 style: TextStyle(
@@ -115,7 +120,7 @@ class _AboutState extends State<About> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children:  [
-                      Text(
+                      const Text(
                         "Tran Huu Dang",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -127,24 +132,24 @@ class _AboutState extends State<About> {
                           mainAxisAlignment: MainAxisAlignment.center,
 
                           children:  [
-                            IconButton(icon: FaIcon(FontAwesomeIcons.facebookMessenger), onPressed: () async {
-                              if(await canLaunch("https://www.messenger.com/t/2839082629435553/"))
+                            IconButton(icon: const FaIcon(FontAwesomeIcons.facebookMessenger), onPressed: () async {
+                              if(await canLaunchUrl(messengerUrl))
                                 {
-                                  await launch("https://www.messenger.com/t/2839082629435553/");
+                                  await launchUrl(messengerUrl, mode: LaunchMode.externalApplication);
                                 }
                             },),
-                            SizedBox(width: 10,),
-                            IconButton(icon: Icon(Icons.language, size: 30,), onPressed: () async{
-                              if(await canLaunch("https://zeroclub.one"))
+                            const SizedBox(width: 10,),
+                            IconButton(icon: const Icon(Icons.language, size: 30,), onPressed: () async{
+                              if(await canLaunchUrl(websiteUrl))
                               {
-                              await launch("https://zeroclub.one");
+                              await launchUrl(websiteUrl, mode: LaunchMode.externalApplication);
                               }
                             },),
-                            SizedBox(width: 10,),
-                            IconButton(icon: FaIcon(FontAwesomeIcons.github), onPressed: () async  {
-                              if(await canLaunch("https://github.com/tranhuudang"))
+                            const SizedBox(width: 10,),
+                            IconButton(icon: const FaIcon(FontAwesomeIcons.github), onPressed: () async  {
+                              if(await canLaunchUrl(githubUrl))
                               {
-                              await launch("https://github.com/tranhuudang");
+                              await launchUrl(githubUrl, mode: LaunchMode.externalApplication);
                               }
                             },),
 

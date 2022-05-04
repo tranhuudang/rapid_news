@@ -23,6 +23,7 @@ class _MyAppState extends State<MyApp> {
   late bool dataSaver;
   late bool readingMode;
   late bool translator;
+  late bool javaScript;
   bool loading = true;
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _MyAppState extends State<MyApp> {
     dataSaver = await RapidProp.settings.getDataSaver();
     readingMode = await RapidProp.settings.getReadingMode();
     translator = await RapidProp.settings.getTranslator();
+    javaScript = await RapidProp.settings.getJavaScriptEnabled();
     setState(() {
       loading = false;
     });

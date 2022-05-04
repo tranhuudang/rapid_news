@@ -269,7 +269,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
             crossPlatform: InAppWebViewOptions(
 
                 /// Javascript disable will block pop up
-                //javaScriptEnabled: !RapidProp.readingMode,
+                javaScriptEnabled: RapidProp.javaScriptEnabled,
                 ),
             ios: IOSInAppWebViewOptions(),
             android: AndroidInAppWebViewOptions(

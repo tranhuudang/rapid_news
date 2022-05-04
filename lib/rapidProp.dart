@@ -8,6 +8,7 @@ class RapidProp
   static bool dataSaver = false;
   static bool readingMode = true;
   static bool translator= true;
+  static bool javaScriptEnabled= true;
   static Map<String, dynamic> oldFavouriteList= {"":""};
   static Map<String, dynamic> oldWebsiteList= {"":""};
   ///Dark mode
@@ -83,6 +84,18 @@ class Settings{
     bool value = false;
     value= prefs.getBool('translator')?? true;
     RapidProp.translator= value;
+    return value;
+  }
+  void setJavaScriptEnabled(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('javaScriptEnabled', value);
+    RapidProp.javaScriptEnabled= value;
+  }
+  Future<bool> getJavaScriptEnabled() async{
+    final prefs = await SharedPreferences.getInstance();
+    bool value = false;
+    value= prefs.getBool('javaScriptEnabled')?? true;
+    RapidProp.javaScriptEnabled= value;
     return value;
   }
 }

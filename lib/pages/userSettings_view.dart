@@ -44,15 +44,15 @@ class _UserSettingsState extends State<UserSettings> {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            ListTile(
+            const ListTile(
               title: Text("Sign in"),
             ),
             SwitchListTile(
-              title: Text(
+              title: const Text(
                 "Always open sites in Reading Mode",
                 style: TextStyle(),
               ),
-              subtitle: Text(
+              subtitle: const Text(
                   "Unfamiliar contents will be filtered out to keep you focus on the road."),
               onChanged: (value) {
                 setState(() {
@@ -63,12 +63,28 @@ class _UserSettingsState extends State<UserSettings> {
               value: RapidProp.readingMode,
             ),
             SwitchListTile(
-              secondary: Icon(Icons.translate),
-              title: Text(
+              //secondary: const Icon(Icons.translate),
+              title: const Text(
+                "Enable JavaScript",
+                style: TextStyle(),
+              ),
+              subtitle: const Text(
+                  "This will allow sites fully function. But sometimes quite annoy with pop-ups and alerts conquer our views."),
+              onChanged: (value) {
+                setState(() {
+                  RapidProp.javaScriptEnabled = value;
+                  RapidProp.settings.setJavaScriptEnabled(value);
+                });
+              },
+              value: RapidProp.javaScriptEnabled,
+            ),
+            SwitchListTile(
+              secondary: const Icon(Icons.translate),
+              title: const Text(
                 "Translator",
                 style: TextStyle(),
               ),
-              subtitle: Text(
+              subtitle: const Text(
                   "Instantly translate after copy."),
               onChanged: (value) {
                 setState(() {
@@ -79,12 +95,12 @@ class _UserSettingsState extends State<UserSettings> {
               value: RapidProp.translator,
             ),
             SwitchListTile(
-              secondary: Icon(Icons.data_saver_on),
-              title: Text(
+              secondary: const Icon(Icons.data_saver_on),
+              title: const Text(
                 "Data Saver",
                 style: TextStyle(),
               ),
-              subtitle: Text(
+              subtitle: const Text(
                   "In this mode, we will not show up any images in articles."),
               onChanged: (value) {
                 setState(() {
@@ -98,7 +114,7 @@ class _UserSettingsState extends State<UserSettings> {
               title: const Text("Dark Mode"),
               onChanged: (bool value) {
                 final snackBar = SnackBar(
-                  duration: Duration(seconds: 10),
+                  duration: const Duration(seconds: 10),
                   content: const Text("Do you want to apply it now?"),
                   action: SnackBarAction(
                     label: 'Apply',
@@ -120,7 +136,7 @@ class _UserSettingsState extends State<UserSettings> {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => About()));
               },
-              child: ListTile(
+              child: const ListTile(
                 title: Text("About"),
               ),
             )
