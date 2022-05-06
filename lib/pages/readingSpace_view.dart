@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:clipboard_monitor/clipboard_monitor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -89,13 +88,13 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
         context: context,
         builder: (BuildContext bc) {
           return Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
             child: Wrap(
               direction: Axis.horizontal,
               children: [
                 Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Text(
@@ -105,7 +104,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
                               ? Colors.white54
                               : Colors.black45),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                   ],
@@ -121,7 +120,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
                             translatedText
                                 .toString()
                                 .substring(1, translatedText.toString().length),
-                        style: TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ),
                   ),
@@ -204,7 +203,7 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
                   color: RapidProp.darkMode
                       ? RapidProp.darkModeProp.appBarIconColor
                       : RapidProp.lightModeProp.appBarIconColor,
-                  icon: Icon(Icons.restart_alt),
+                  icon: const Icon(Icons.restart_alt),
                   onPressed: () {
                     setState(() {
                       websiteLoading = true;
@@ -237,58 +236,56 @@ class _ReadingSpaceViewState extends State<ReadingSpaceView> {
             color: RapidProp.darkMode
                 ? RapidProp.darkModeProp.appBarIconColor
                 : RapidProp.lightModeProp.appBarIconColor,
-            icon: Icon(Icons.share),
+            icon: const Icon(Icons.share),
             onPressed: () {
               Share.share(widget.url);
             },
           ),
         ],
       ),
-      body: Container(
-        child: InAppWebView(
-          androidShouldInterceptRequest: (controller, request) async {
-            List<String> adblockList = HostList.urls;
-            var url = request.url.toString();
-            var i = 0;
-            while (i < adblockList.length) {
-              if (url.contains(adblockList.elementAt(i))) {
-                return WebResourceResponse();
-              }
-              i++;
+      body: InAppWebView(
+        androidShouldInterceptRequest: (controller, request) async {
+          List<String> adblockList = HostList.urls;
+          var url = request.url.toString();
+          var i = 0;
+          while (i < adblockList.length) {
+            if (url.contains(adblockList.elementAt(i))) {
+              return WebResourceResponse();
             }
-          },
-          onLoadStop: (controller, url) {
-            setState(() {
-              websiteLoading = false;
-            });
-          },
-          onWebViewCreated: ((controller) {
-            _controller = controller;
-          }),
-          initialOptions: InAppWebViewGroupOptions(
-            crossPlatform: InAppWebViewOptions(
+            i++;
+          }
+        },
+        onLoadStop: (controller, url) {
+          setState(() {
+            websiteLoading = false;
+          });
+        },
+        onWebViewCreated: ((controller) {
+          _controller = controller;
+        }),
+        initialOptions: InAppWebViewGroupOptions(
+          crossPlatform: InAppWebViewOptions(
 
-                /// Javascript disable will block pop up
-                javaScriptEnabled: RapidProp.javaScriptEnabled,
-                ),
-            ios: IOSInAppWebViewOptions(),
-            android: AndroidInAppWebViewOptions(
-              /// Intercept while loading a url to fill out unwanted content ex: ads ( enabled when readingMode enabled )
-              useShouldInterceptRequest: RapidProp.readingMode,
-              useHybridComposition: true,
-              forceDark: RapidProp.darkMode
-                  ? AndroidForceDark.FORCE_DARK_ON
-                  : AndroidForceDark.FORCE_DARK_OFF,
-              blockNetworkImage: RapidProp.dataSaver ? true : false,
-            ),
+              /// Javascript disable will block pop up
+              javaScriptEnabled: RapidProp.javaScriptEnabled,
+              ),
+          ios: IOSInAppWebViewOptions(),
+          android: AndroidInAppWebViewOptions(
+            /// Intercept while loading a url to fill out unwanted content ex: ads ( enabled when readingMode enabled )
+            useShouldInterceptRequest: RapidProp.readingMode,
+            useHybridComposition: true,
+            forceDark: RapidProp.darkMode
+                ? AndroidForceDark.FORCE_DARK_ON
+                : AndroidForceDark.FORCE_DARK_OFF,
+            blockNetworkImage: RapidProp.dataSaver ? true : false,
           ),
-          initialUrlRequest: URLRequest(
-              url: Uri.parse(widget.url.contains("http")
-                  ? (widget.url.contains("https")
-                      ? widget.url
-                      : widget.url.replaceAll("http://", "https://"))
-                  : "https://" + widget.url)),
         ),
+        initialUrlRequest: URLRequest(
+            url: Uri.parse(widget.url.contains("http")
+                ? (widget.url.contains("https")
+                    ? widget.url
+                    : widget.url.replaceAll("http://", "https://"))
+                : "https://" + widget.url)),
       ),
     );
   }

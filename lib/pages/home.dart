@@ -1,3 +1,4 @@
+
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,8 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+
+
   DateTime backPressedTime = DateTime.now();
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,7 @@ class _HomeState extends State<Home> {
           Fluttertoast.cancel();
           return true;
         }
-      },
+        },
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: RapidProp.darkMode

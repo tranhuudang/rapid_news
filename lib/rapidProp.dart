@@ -9,6 +9,7 @@ class RapidProp
   static bool dataSaver = false;
   static bool readingMode = true;
   static bool translator= true;
+  static bool onHeadLinePage= false;
   static bool javaScriptEnabled= true;
   static Map<String, dynamic> oldFavouriteList= {"":""};
   static Map<String, dynamic> oldWebsiteList= {"":""};

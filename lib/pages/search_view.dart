@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:rapid/pages/listFoundedNews_view.dart';
+import 'package:rapid/rapidProp.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -10,7 +11,15 @@ class Search extends StatefulWidget {
   State<Search> createState() => _SearchState();
 }
 
+
+
 class _SearchState extends State<Search> {
+
+  @override
+  void initState()
+  {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,7 +32,7 @@ class _SearchState extends State<Search> {
           children: [
             Expanded(
               child: TextField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Search",
                   border: OutlineInputBorder(),
                 ),
@@ -32,7 +41,7 @@ class _SearchState extends State<Search> {
                 textAlign: TextAlign.center,
                 textInputAction: TextInputAction.search,
                 maxLength: 30,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 onSubmitted: (text){
                   Navigator.push(
                       context,
