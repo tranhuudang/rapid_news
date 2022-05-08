@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:rapid/rapidProp.dart';
 import 'pages/home.dart';
 
-
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -17,6 +16,7 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 }
+
 
 class _MyAppState extends State<MyApp> {
   late bool darkMode;

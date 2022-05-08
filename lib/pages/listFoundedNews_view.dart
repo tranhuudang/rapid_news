@@ -4,9 +4,11 @@ import 'package:rapid/object/article_model.dart';
 import 'package:rapid/pages/readingSpace_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../rapidProp.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-///https://newsapi.org/v2/everything?q=computer&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f for everything
-///https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f for headline only
+
+//https://newsapi.org/v2/everything?q=computer&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f for everything
+//https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=6e9d9069fd6d4fad98e12e7e08d4967f for headline only
 class ListFoundedNews extends StatefulWidget {
   const ListFoundedNews(this.searchTopic);
   final String searchTopic;
@@ -23,6 +25,8 @@ class _ListFoundedNewsState extends State<ListFoundedNews> {
   getNews() async {
     ListNews listNews = ListNews(topic: widget.searchTopic);
     await listNews.getNews();
+    // Shuffle all the element inside list so we have a better experience when using the app. Because all the new always seem to look new :))
+    listNews.listGotNews.shuffle();
     listNewsInHome = listNews.listGotNews;
     setState(() {
       _loading = false;
@@ -124,7 +128,7 @@ class BlogTile extends StatelessWidget {
                   flex: 1,
                   child: Text(
                     title,
-                    style: const TextStyle(fontSize: 18),
+                    style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18),),
                   ),
                 ),
               ],

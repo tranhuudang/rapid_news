@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ui';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:rapid/helper/listNews.dart';
@@ -13,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shake/shake.dart';
 // this package control the vibration
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HeadLines extends StatefulWidget {
   @override
@@ -20,35 +20,41 @@ class HeadLines extends StatefulWidget {
 }
 
 class _HeadLinesState extends State<HeadLines> {
-  List<ArticleModel> listNewsInHome = <ArticleModel>[];
   bool _weatherLoading = true;
+  bool _loading = true;
+  late ShakeDetector detector;
+  double _pageOffSet=0;
 
+  /// Get random quotation from HELPER
+  //String randomQuote = Quotation().getRandomQuote();
+
+  /// Get list new in HELPER
+  List<ArticleModel> listNewsInHome = <ArticleModel>[];
   getNews() async {
     ListNews listNews = ListNews(topic: "headlines");
     await listNews.getNews();
+    // Shuffle all the element inside list so we have a better experience when using the app. Because all the new always seem to look new :))
+    listNews.listGotNews.shuffle();
     listNewsInHome = listNews.listGotNews;
     setState(() {
       _loading = false;
     });
   }
 
-  late PageController pageController = PageController();
-  double pageOffSet = 0;
-  bool _loading = true;
-  String APIkey = RapidProp.weatherAPIkey;
+  /// Get weather base on current location
+  String apiKey = RapidProp.weatherAPIkey;
   double temp = 0;
   String describeWeather = "";
   String district = "";
 
   void getWeather() async {
-    LocationPermission permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied)
-      print("User not alow to access their location!");
+    // Request permission to access phone's location
+    await Geolocator.requestPermission();
     Position location = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
     http.Response response = await http.get(Uri.parse(
-        "https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$APIkey&units=metric"));
-    print(response.body);
+        "https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric"));
+    //print(response.body);
     temp = jsonDecode(response.body)['main']['temp'];
     describeWeather = jsonDecode(response.body)['weather'][0]['description'];
     district = jsonDecode(response.body)['name'];
@@ -58,67 +64,29 @@ class _HeadLinesState extends State<HeadLines> {
     RapidProp.weatherTemp = temp.toString();
     setState(() {
       _weatherLoading = false;
-      print("ok boy");
     });
   }
 
+  /// Auto scroll page using timer and pageViewController
+  late PageController pageController = PageController();
   int _currentPage = 0;
   late Timer _timer;
   bool isBackward = false;
-  late ShakeDetector detector;
-  @override
-  void initState() {
-    super.initState();
-    RapidProp.onHeadLinePage= true;
-    pageController = PageController(initialPage: 0, viewportFraction: 0.8);
 
-    pageController.addListener(() {
-      setState(() {
-        pageOffSet = pageController.page!;
-        _currentPage = pageController.page!.toInt();
-      });
-    });
-    if (RapidProp.weatherDistrict == "") {
-      getWeather();
-    }
-    getNews();
-
-    autoScrollPageView();
-
-   detector = ShakeDetector.autoStart(
-        minimumShakeCount: 3,
-        shakeSlopTimeMS: 500,
-        shakeCountResetTime: 2000,
-       shakeThresholdGravity: 1.5,
-        onPhoneShake: () {
-          setState(() {
-            print('shaking');
-            HapticFeedback.vibrate();
-            _loading = true;
-            getNews();
-            getWeather();
-          });
-        });
-  }
-
-
-  void disableAutoScrollPageView(){
-    if (_timer.isActive) _timer.cancel();
-  }
-  void autoScrollPageView(){
+  void autoScrollPageView() {
     _timer = Timer.periodic(
-      Duration(seconds: 5),
-          (Timer timer) {
+      const Duration(seconds: 5),
+      (Timer timer) {
         if (!isBackward) {
           pageController.animateToPage(
             _currentPage++,
-            duration: Duration(milliseconds: 1500),
+            duration: const Duration(milliseconds: 1500),
             curve: Curves.fastOutSlowIn,
           );
         } else {
           pageController.animateToPage(
             _currentPage--,
-            duration: Duration(milliseconds: 1500),
+            duration: const Duration(milliseconds: 1500),
             curve: Curves.fastOutSlowIn,
           );
         }
@@ -130,49 +98,75 @@ class _HeadLinesState extends State<HeadLines> {
     );
   }
 
+  void disableAutoScrollPageView() {
+    if (_timer.isActive) _timer.cancel();
+  }
 
+  /// determine the phone shake and reload the page when the force equal to a value
+  void enableDetermineShake() {
+    detector = ShakeDetector.autoStart(
+        minimumShakeCount: 3,
+        shakeSlopTimeMS: 200,
+        shakeCountResetTime: 2000,
+        shakeThresholdGravity: 1.1,
+        onPhoneShake: () {
+          setState(() {
+            HapticFeedback.vibrate();
+            _loading = true;
+            getNews();
+            getWeather();
+          });
+        });
+  }
+
+  /// Initial State of this widget
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: 0, viewportFraction: 0.8);
+    pageController.addListener(() {
+      setState(() {
+        _pageOffSet = pageController.page!;
+        _currentPage = pageController.page!.toInt();
+      });
+    });
+    // If weatherDistrict blank, it means that the weather is never got. In other cases, we will load the got-weather to better performance.
+    if (RapidProp.weatherDistrict == "") {
+      getWeather();
+    }
+    getNews();
+    autoScrollPageView();
+    enableDetermineShake();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
           Expanded(
             flex: 3,
             child: _weatherLoading && RapidProp.weatherDistrict == ""
-                ? Container(
+                ? SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 35,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 10,
-                            ),
-                          ],
-                        ),
-                        Text(
-                          "Today is a good day!",
-                          style: GoogleFonts.tinos(
-                              textStyle: TextStyle(
-                                  fontSize: 20,
-                                  color: RapidProp.darkMode
-                                      ? Colors.white54
-                                      : Colors.black45)),
+                          children: const [FaIcon(FontAwesomeIcons.cloudMoon)],
                         ),
                       ],
                     ),
                   )
-                : Container(
+                : SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 35,
                         ),
                         Row(
@@ -187,7 +181,7 @@ class _HeadLinesState extends State<HeadLines> {
                                         : Colors.black45,
                                   ),
                                 )),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Text(
@@ -223,129 +217,109 @@ class _HeadLinesState extends State<HeadLines> {
                     child: CircularProgressIndicator(),
                   )
                 : GestureDetector(
-              onTapDown: (value){
-               disableAutoScrollPageView();
-               autoScrollPageView();
-              },
-                  child: PageView.builder(
-                      controller: pageController,
-                      itemCount: listNewsInHome.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          // onHorizontalDragEnd: (details) {
-                          //   if (details.primaryVelocity! > 0) {
-                          //     // User swiped Left
-                          //     pageController.animateToPage(
-                          //       _currentPage--,
-                          //       duration: Duration(milliseconds: 500),
-                          //       curve: Curves.fastOutSlowIn,
-                          //     );
-                          //     //isBackward=true;
-                          //     _timer.cancel();
-                          //   } else if (details.primaryVelocity! < 0) {
-                          //     // User swiped Right
-                          //     pageController.animateToPage(
-                          //       _currentPage++,
-                          //       duration: Duration(milliseconds: 500),
-                          //       curve: Curves.fastOutSlowIn,
-                          //     );
-                          //     //isBackward=false;
-                          //     _timer.cancel();
-                          //   }
-                          // },
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ReadingSpaceView(
-                                        listNewsInHome[index].url,
-                                        listNewsInHome[index].title)));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  side: new BorderSide(
-                                      color: RapidProp.darkMode
-                                          ? Colors.black
-                                          : Colors.black26),
-                                  borderRadius: new BorderRadius.all(
-                                      new Radius.circular(10))),
-                              color: RapidProp.darkMode
-                                  ? Colors.white10
-                                  : Colors.white70,
-                              elevation: 5,
-                              shadowColor: Colors.black87,
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10)),
-                                    child: CachedNetworkImage(
-                                      alignment:
-                                          Alignment(-pageOffSet.abs() + index, 0),
-                                      imageUrl: listNewsInHome[index].imageUrl,
-                                      width: 400,
-                                      height: 270,
-                                      fit: BoxFit.cover,
+                    onTapDown: (value) {
+                      disableAutoScrollPageView();
+                    },
+                    child: PageView.builder(
+                        controller: pageController,
+                        itemCount: listNewsInHome.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ReadingSpaceView(
+                                          listNewsInHome[index].url,
+                                          listNewsInHome[index].title)));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: RapidProp.darkMode
+                                            ? Colors.black
+                                            : Colors.black26),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                color: RapidProp.darkMode
+                                    ? Colors.white10
+                                    : Colors.white70,
+                                elevation: 5,
+                                shadowColor: Colors.black87,
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10)),
+                                      child: CachedNetworkImage(
+                                        alignment: Alignment(-_pageOffSet.abs() + index,0),
+                                        imageUrl:
+                                            listNewsInHome[index].imageUrl,
+                                        width: 400,
+                                        height: 270,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                  ),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Container(
-                                      color: RapidProp.darkMode
-                                          ? Colors.white10
-                                          : Colors.black12,
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 270,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
                                       child: Container(
-                                        //color: Colors.black45,
-                                        height: 100,
-                                        width: 240,
-                                        child: Text(
-                                          listNewsInHome[index]
-                                                      .title
-                                                      .substring(
-                                                          0,
-                                                          listNewsInHome[index]
-                                                              .title
-                                                              .lastIndexOf('-'))
-                                                      .length >
-                                                  100
-                                              ? listNewsInHome[index]
-                                                      .title
-                                                      .substring(0, 80) +
-                                                  ".."
-                                              : listNewsInHome[index]
-                                                  .title
-                                                  .substring(
-                                                      0,
-                                                      listNewsInHome[index]
-                                                          .title
-                                                          .lastIndexOf('-')),
-                                          style: GoogleFonts.tinos(
-                                              textStyle: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: RapidProp.darkMode
-                                                      ? Colors.white
-                                                      : Colors.black)),
+                                        color: RapidProp.darkMode
+                                            ? Colors.white10
+                                            : Colors.black12,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 270,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          //color: Colors.black45,
+                                          height: 100,
+                                          width: 240,
+                                          child: Text(
+                                            listNewsInHome[index]
+                                                        .title
+                                                        .substring(
+                                                            0,
+                                                            listNewsInHome[
+                                                                    index]
+                                                                .title
+                                                                .lastIndexOf(
+                                                                    '-'))
+                                                        .length >
+                                                    100
+                                                ? listNewsInHome[index]
+                                                        .title
+                                                        .substring(0, 80) +
+                                                    ".."
+                                                : listNewsInHome[index]
+                                                    .title
+                                                    .substring(
+                                                        0,
+                                                        listNewsInHome[index]
+                                                            .title
+                                                            .lastIndexOf('-')),
+                                            style: GoogleFonts.tinos(
+                                                textStyle: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: RapidProp.darkMode
+                                                        ? Colors.white
+                                                        : Colors.black)),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }),
-                ),
+                          );
+                        }),
+                  ),
           ),
           Expanded(flex: 2, child: Container())
         ],

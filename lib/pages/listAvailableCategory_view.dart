@@ -8,6 +8,8 @@ import 'package:rapid/rapidProp.dart';
 import 'listFoundedNews_view.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rapid/object/favouriteWebsite_model.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ListAvailableCategory extends StatefulWidget {
@@ -32,8 +34,7 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
     getApplicationDocumentsDirectory().then((Directory directory) {
       dir = directory;
       jsonFile = File(dir.path + "/" + fileName);
-      fileExists = jsonFile.existsSync();
-      if (fileExists) loadJsonToList();
+      if (jsonFile.existsSync()) loadJsonToList();
     });
   }
 
@@ -120,11 +121,11 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
               ),
               child: Container(
                 color: Colors.red,
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
                   child: Text(
                     "Favourite Publishers",
-                    style: TextStyle(color: Colors.white),
+                    style: GoogleFonts.tinos(textStyle: TextStyle(color: Colors.white),),
                   ),
                 ),
               ),
@@ -137,7 +138,6 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
             alignment: WrapAlignment.center,
             spacing: 12,
             runSpacing: 12,
-            //scrollDirection: Axis.horizontal,
             children: [
               Wrap(
                   alignment: WrapAlignment.start,
@@ -168,10 +168,10 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    const Expanded(
+                                     Expanded(
                                       flex: 3,
                                       child: Text(
-                                          "Add your favourite publisher here, so we never miss anything interesting"),
+                                          "Add your favourite publisher here, so we never miss anything interesting", style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 15)),),
                                     ),
                                     TextButton(
                                       onPressed: () {
@@ -231,11 +231,11 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
               ),
               child: Container(
                 color: Colors.red,
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
                   child: Text(
                     "Categories",
-                    style: TextStyle(color: Colors.white),
+                    style: GoogleFonts.tinos(textStyle: TextStyle(color: Colors.white),),
                   ),
                 ),
               ),
@@ -327,15 +327,16 @@ class CategoryTile extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.only(left: 40),
                 height: 70,
-                decoration: const BoxDecoration(
-                  color: Colors.black54,
+                decoration: BoxDecoration(
+                  color: RapidProp.darkMode? Colors.black54: Colors.black26,
                 ),
                 alignment: Alignment.centerLeft,
                 child: Text(
                   categoryName,
-                  style: const TextStyle(
+                  style: GoogleFonts.tinos( textStyle: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
+                  ),
                   ),
                 ),
               ),

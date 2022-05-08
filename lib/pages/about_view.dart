@@ -1,9 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rapid/rapidProp.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);
@@ -49,11 +53,12 @@ class _AboutState extends State<About> {
           ),
           title: Text(
             "About",
-            style: TextStyle(
+            style: GoogleFonts.tinos(textStyle:TextStyle(
+              fontWeight: FontWeight.bold,
               color: RapidProp.darkMode
                   ? RapidProp.darkModeProp.appBarTextColor
                   : RapidProp.lightModeProp.appBarTextColor,
-            ),
+            ),),
           ),
           backgroundColor: RapidProp.darkMode
               ? RapidProp.darkModeProp.appBarBackgroundColor
@@ -80,12 +85,12 @@ class _AboutState extends State<About> {
                           period: const Duration(seconds: 3),
                           loop: 3,
                           enabled: true,
-                          child: const Text(
+                          child:  Text(
                             "Rapid",
-                            style: TextStyle(
+                            style:GoogleFonts.tinos(textStyle: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 26,
-                            ),
+                            ),),
                           ),
                         ),
                         ClipRRect(
@@ -108,8 +113,8 @@ class _AboutState extends State<About> {
                         ),
                       ],
                     ),
-                    Text("Version: " + _packageInfo.version),
-                    Text("Build: " + _packageInfo.buildNumber),
+                    Text("Version: " + _packageInfo.version, style: GoogleFonts.tinos(textStyle: TextStyle()),),
+                    Text("Build: " + _packageInfo.buildNumber, style: GoogleFonts.tinos(textStyle: TextStyle()),),
                   ],
                 ),
               ),
@@ -120,12 +125,12 @@ class _AboutState extends State<About> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children:  [
-                      const Text(
+                      Text(
                         "Tran Huu Dang",
-                        style: TextStyle(
+                        style: GoogleFonts.tinos(textStyle:TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15),
-                      ),
+                      ),),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Row(
@@ -163,11 +168,11 @@ class _AboutState extends State<About> {
               const SizedBox(
                 height: 100,
               ),
-              const Expanded(
+               Expanded(
                 flex: 1,
                 child: Text(
                   "ZeroClub",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.tinos(textStyle:TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 ),
               )
             ],

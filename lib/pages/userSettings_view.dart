@@ -1,8 +1,8 @@
-
 import 'package:rapid/main.dart';
 import 'package:flutter/material.dart';
 import 'package:rapid/rapidProp.dart';
 import 'about_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserSettings extends StatefulWidget {
   const UserSettings({Key? key}) : super(key: key);
@@ -27,10 +27,12 @@ class _UserSettingsState extends State<UserSettings> {
         elevation: 0.5,
         title: Text(
           "User Settings",
-          style: TextStyle(
-            color: RapidProp.darkMode
-                ? RapidProp.darkModeProp.appBarTextColor
-                : RapidProp.lightModeProp.appBarTextColor,
+          style: GoogleFonts.tinos(
+            textStyle: TextStyle(
+              color: RapidProp.darkMode
+                  ? RapidProp.darkModeProp.appBarTextColor
+                  : RapidProp.lightModeProp.appBarTextColor,
+            ),
           ),
         ),
         iconTheme: IconThemeData(
@@ -44,16 +46,18 @@ class _UserSettingsState extends State<UserSettings> {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            const ListTile(
-              title: Text("Sign in"),
+             ListTile(
+              title: Text("Sign in" ,style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18, color: Colors.black26)),),
             ),
             SwitchListTile(
-              title: const Text(
+              title: Text(
                 "Always open sites in Reading Mode",
-                style: TextStyle(),
+                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
               ),
-              subtitle: const Text(
-                  "Unfamiliar contents will be filtered out to keep you focus on the road."),
+              subtitle: Text(
+                "Unfamiliar contents will be filtered out to keep you focus on the road.",
+                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 16)),
+              ),
               onChanged: (value) {
                 setState(() {
                   RapidProp.readingMode = value;
@@ -64,12 +68,14 @@ class _UserSettingsState extends State<UserSettings> {
             ),
             SwitchListTile(
               //secondary: const Icon(Icons.translate),
-              title: const Text(
+              title: Text(
                 "Enable JavaScript",
-                style: TextStyle(),
+                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
               ),
-              subtitle: const Text(
-                  "This will allow sites fully function. But sometimes quite annoy with pop-ups and alerts conquer our views."),
+              subtitle: Text(
+                "This will allow sites fully function. But sometimes quite annoy with pop-ups and alerts conquer our views.",
+                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 16)),
+              ),
               onChanged: (value) {
                 setState(() {
                   RapidProp.javaScriptEnabled = value;
@@ -80,12 +86,14 @@ class _UserSettingsState extends State<UserSettings> {
             ),
             SwitchListTile(
               secondary: const Icon(Icons.translate),
-              title: const Text(
+              title: Text(
                 "Translator",
-                style: TextStyle(),
+                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
               ),
-              subtitle: const Text(
-                  "Instantly translate after copy."),
+              subtitle: Text(
+                "Instantly translate after copy.",
+                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 16)),
+              ),
               onChanged: (value) {
                 setState(() {
                   RapidProp.translator = value;
@@ -96,12 +104,14 @@ class _UserSettingsState extends State<UserSettings> {
             ),
             SwitchListTile(
               secondary: const Icon(Icons.data_saver_on),
-              title: const Text(
+              title: Text(
                 "Data Saver",
-                style: TextStyle(),
+                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
               ),
-              subtitle: const Text(
-                  "In this mode, we will not show up any images in articles."),
+              subtitle: Text(
+                "In this mode, we will not show up any images in articles.",
+                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 16)),
+              ),
               onChanged: (value) {
                 setState(() {
                   RapidProp.dataSaver = value;
@@ -111,7 +121,10 @@ class _UserSettingsState extends State<UserSettings> {
               value: RapidProp.dataSaver,
             ),
             SwitchListTile(
-              title: const Text("Dark Mode"),
+              title: Text(
+                "Dark Mode",
+                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
+              ),
               onChanged: (bool value) {
                 final snackBar = SnackBar(
                   duration: const Duration(seconds: 10),
@@ -136,8 +149,11 @@ class _UserSettingsState extends State<UserSettings> {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => About()));
               },
-              child: const ListTile(
-                title: Text("About"),
+              child: ListTile(
+                title: Text(
+                  "About",
+                  style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
+                ),
               ),
             )
           ],
