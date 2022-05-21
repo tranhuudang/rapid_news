@@ -63,7 +63,8 @@ class _HomeState extends State<Home> {
                 enabled: true,
                 child:  Text(
                   "Rapid",
-                  style: GoogleFonts.tinos(textStyle: TextStyle(
+                  style: GoogleFonts.tinos(
+                    textStyle:TextStyle(
                     fontWeight: FontWeight.w900,
                     fontSize: 26,
                   )),

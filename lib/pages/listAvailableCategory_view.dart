@@ -125,7 +125,7 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
                   padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
                   child: Text(
                     "Favourite Publishers",
-                    style: GoogleFonts.tinos(textStyle: TextStyle(color: Colors.white),),
+                    style:TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -171,7 +171,7 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
                                      Expanded(
                                       flex: 3,
                                       child: Text(
-                                          "Add your favourite publisher here, so we never miss anything interesting", style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 15)),),
+                                          "Add your favourite publisher here, so we never miss anything interesting", style:TextStyle(fontSize: 15)),
                                     ),
                                     TextButton(
                                       onPressed: () {
@@ -235,7 +235,7 @@ class _ListAvailableCategoryState extends State<ListAvailableCategory> {
                   padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
                   child: Text(
                     "Categories",
-                    style: GoogleFonts.tinos(textStyle: TextStyle(color: Colors.white),),
+                    style:TextStyle(color: Colors.white),
                   ),
                 ),
               ),

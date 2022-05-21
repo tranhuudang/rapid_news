@@ -128,7 +128,7 @@ class BlogTile extends StatelessWidget {
                   flex: 1,
                   child: Text(
                     title,
-                    style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18),),
+                    style: TextStyle(fontSize: 18),
                   ),
                 ),
               ],

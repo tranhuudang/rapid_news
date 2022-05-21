@@ -27,12 +27,10 @@ class _UserSettingsState extends State<UserSettings> {
         elevation: 0.5,
         title: Text(
           "User Settings",
-          style: GoogleFonts.tinos(
-            textStyle: TextStyle(
+          style: TextStyle(
               color: RapidProp.darkMode
                   ? RapidProp.darkModeProp.appBarTextColor
                   : RapidProp.lightModeProp.appBarTextColor,
-            ),
           ),
         ),
         iconTheme: IconThemeData(
@@ -47,16 +45,15 @@ class _UserSettingsState extends State<UserSettings> {
         child: Column(
           children: [
              ListTile(
-              title: Text("Sign in" ,style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18, color: Colors.black26)),),
+              title: Text("Sign in" ,style:TextStyle(fontSize: 18, color: Colors.black26)),
             ),
             SwitchListTile(
               title: Text(
                 "Always open sites in Reading Mode",
-                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
+                style:TextStyle( fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
                 "Unfamiliar contents will be filtered out to keep you focus on the road.",
-                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 16)),
               ),
               onChanged: (value) {
                 setState(() {
@@ -69,12 +66,10 @@ class _UserSettingsState extends State<UserSettings> {
             SwitchListTile(
               //secondary: const Icon(Icons.translate),
               title: Text(
-                "Enable JavaScript",
-                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
+                "Enable JavaScript", style:TextStyle( fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
                 "This will allow sites fully function. But sometimes quite annoy with pop-ups and alerts conquer our views.",
-                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 16)),
               ),
               onChanged: (value) {
                 setState(() {
@@ -88,11 +83,10 @@ class _UserSettingsState extends State<UserSettings> {
               secondary: const Icon(Icons.translate),
               title: Text(
                 "Translator",
-                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
+                style:TextStyle( fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
                 "Instantly translate after copy.",
-                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 16)),
               ),
               onChanged: (value) {
                 setState(() {
@@ -106,11 +100,10 @@ class _UserSettingsState extends State<UserSettings> {
               secondary: const Icon(Icons.data_saver_on),
               title: Text(
                 "Data Saver",
-                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
+                style:TextStyle( fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
                 "In this mode, we will not show up any images in articles.",
-                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 16)),
               ),
               onChanged: (value) {
                 setState(() {
@@ -123,7 +116,7 @@ class _UserSettingsState extends State<UserSettings> {
             SwitchListTile(
               title: Text(
                 "Dark Mode",
-                style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
+                style:TextStyle( fontWeight: FontWeight.bold),
               ),
               onChanged: (bool value) {
                 final snackBar = SnackBar(
@@ -152,7 +145,7 @@ class _UserSettingsState extends State<UserSettings> {
               child: ListTile(
                 title: Text(
                   "About",
-                  style: GoogleFonts.tinos(textStyle: TextStyle(fontSize: 18)),
+                  style:TextStyle( fontWeight: FontWeight.bold),
                 ),
               ),
             )
