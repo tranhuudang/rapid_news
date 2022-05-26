@@ -9,9 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:rapid/pages/readingSpace_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shake/shake.dart';
-// this package control the vibration
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HeadLines extends StatefulWidget {
@@ -22,7 +19,6 @@ class HeadLines extends StatefulWidget {
 class _HeadLinesState extends State<HeadLines> {
   bool _weatherLoading = true;
   bool _loading = true;
-  late ShakeDetector detector;
   double _pageOffSet=0;
 
   /// Get random quotation from HELPER
@@ -102,23 +98,6 @@ class _HeadLinesState extends State<HeadLines> {
     if (_timer.isActive) _timer.cancel();
   }
 
-  /// determine the phone shake and reload the page when the force equal to a value
-  void enableDetermineShake() {
-    detector = ShakeDetector.autoStart(
-        minimumShakeCount: 3,
-        shakeSlopTimeMS: 200,
-        shakeCountResetTime: 2000,
-        shakeThresholdGravity: 1.1,
-        onPhoneShake: () {
-          setState(() {
-            HapticFeedback.vibrate();
-            _loading = true;
-            getNews();
-            getWeather();
-          });
-        });
-  }
-
   /// Initial State of this widget
   @override
   void initState() {
@@ -136,7 +115,6 @@ class _HeadLinesState extends State<HeadLines> {
     }
     getNews();
     autoScrollPageView();
-    enableDetermineShake();
   }
 
   @override
